@@ -14,10 +14,13 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex min-h-screen">
-        <div className=" border-black p-4 flex flex-col gap-5 text-xl font-bold">
-          <WizardCard></WizardCard>
+      <main className="min-h-lvh max-w-screen">
+        <div className="flex flex-wrap justify-center border-black p-4 gap-5 text-xl font-bold max-w-screen">
+          <WizardCard />
+
+
         </div>
+
       </main>
     </>
   );

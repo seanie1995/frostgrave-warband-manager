@@ -1,18 +1,18 @@
 import React from 'react'
 
-const WizardCard = () => {
+const soldiercard = () => {
     return (
         <div className="p-2 w-xl bg-gray-900 rounded-xl flex flex-col">
             {/* Top section: Wizard + School */}
             <section className="p-1 flex flex-row justify-evenly md:flex-row gap-2">
                 <div>
                     <h2 className="text-lg text-white font-bold">
-                        Wizard: <span className="bg-white px-1 text-black inline-block w-full md:w-48 rounded-lg">Roy</span>
+                        Name: <span className="bg-white px-1 text-black inline-block w-full md:w-48 rounded-lg">Roy</span>
                     </h2>
                 </div>
                 <div>
                     <h2 className="text-lg text-white font-bold">
-                        School: <span className="bg-white px-1 text-black inline-block w-full md:w-32 rounded-lg">Elementalist</span>
+                        Type: <span className="bg-white px-1 text-black inline-block w-full md:w-32 rounded-lg">Elementalist</span>
                     </h2>
                 </div>
             </section>
@@ -79,4 +79,4 @@ const WizardCard = () => {
     )
 }
 
-export default WizardCard
+export default soldiercard

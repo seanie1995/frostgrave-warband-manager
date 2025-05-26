@@ -3,9 +3,14 @@ import { React, useState, useEffect } from 'react';
 
 const page = () => {
 
-    const [chosenSchool, setChosenSchool] = useState("")
+    const [chosenSchool, setChosenSchool] = useState("");
+    const [schoolSpells, setSchoolSpells] = useState([]);
+    const [alignedSpells, setAlignedSpells] = useState([]);
+    const [opposedSpells, setOpposedSpells] = useState([]);
 
     useEffect(() => {
+
+
 
     }, [chosenSchool])
 
@@ -14,7 +19,6 @@ const page = () => {
         <main className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
             <form className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-4">
                 <h1 className="text-2xl font-bold text-center">Create Your Wizard</h1>
-
                 <input
                     type="text"
                     name="name"
