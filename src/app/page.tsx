@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="min-h-lvh max-w-screen">
+      <main className="max-h-lvh max-w-screen">
         <div className="flex flex-wrap justify-center border-black p-4 gap-5 text-xl font-bold max-w-screen">
           <WizardCard />
 

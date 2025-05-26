@@ -1,16 +1,23 @@
 'use client'
 import { React, useState, useEffect } from 'react';
-
+import Gamecodex from "../assets/Codex.json"
 const page = () => {
 
     const [chosenSchool, setChosenSchool] = useState("");
     const [schoolSpells, setSchoolSpells] = useState([]);
     const [alignedSpells, setAlignedSpells] = useState([]);
     const [opposedSpells, setOpposedSpells] = useState([]);
+    const [chosenSchoolInfo, setChosenSchoolInfo] = useState([]);
 
     useEffect(() => {
 
+        if (!chosenSchool) return;
 
+        const found = Gamecodex.schools.find(
+            (school) => school.name === chosenSchool
+        )
+
+        setChosenSchoolInfo(found);
 
     }, [chosenSchool])
 
