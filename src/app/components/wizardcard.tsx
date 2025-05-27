@@ -2,7 +2,7 @@ import React from 'react'
 
 const WizardCard = () => {
     return (
-        <div className="p-2 w-xl bg-gray-900 rounded-xl flex flex-col">
+        <div className="p-2 w-xl bg-gray-900 rounded-xl flex flex-col hover:opacity-80 hover:cursor-pointer">
             {/* Top section: Wizard + School */}
             <section className="p-1 flex flex-row justify-evenly md:flex-row gap-2">
                 <div>
