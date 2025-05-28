@@ -6,8 +6,8 @@ import { Member } from '../models/models';
 type MyContextType = {
     state: string | null;
     setState: (state: string | null) => void;
-    fullWarband: any[]; // You can replace `any` with a more specific type
-    setFullWarband: (value: any[]) => void;
+    fullWarband: Member[];
+    setFullWarband: React.Dispatch<React.SetStateAction<Member[]>>;
 };
 
 // Create the context with a default value
