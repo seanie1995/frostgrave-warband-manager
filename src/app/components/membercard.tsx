@@ -1,9 +1,9 @@
 import React from 'react'
 import { Member, MemberProp, Wizard, Apprentice } from "../models/models"
 
-const WizardCard: React.FC<MemberProp> = ({ member }) => {
+const WizardCard: React.FC<MemberProp> = ({ member, onClick }) => {
     return (
-        <div className="p-2 w-xl bg-gray-900 rounded-xl flex flex-col hover:opacity-80 hover:cursor-pointer">
+        <div className="p-2 bg-gray-900 rounded-xl flex flex-col hover:opacity-80 hover:cursor-pointer" onClick={onClick}>
             {/* Top section: Wizard + School */}
 
             {member.role === "Wizard" || member.role === "Apprentice" ? <section className="p-1 flex flex-row justify-evenly md:flex-row gap-2">

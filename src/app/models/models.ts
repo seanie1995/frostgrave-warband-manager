@@ -65,6 +65,12 @@ export interface School {
 
 export interface MemberProp {
     member: Member;
+    onClick?: () => void
+}
+
+export interface SpellProp {
+    spell: Spell;
+    onClick?: () => void
 }
 
 export type Member = Soldier | Apprentice | Wizard;

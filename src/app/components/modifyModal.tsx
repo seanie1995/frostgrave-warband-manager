@@ -2,11 +2,11 @@ import React from 'react'
 import "./styles/modifyModal.css"
 import { Member, MemberProp, Wizard, Apprentice } from "../models/models"
 
-const modifyModal: React.FC<MemberProp> = ({ member }) => {
+const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
     return (
-        <main className="flex items-center justify-center">
+        <main className="fixed inset-0 m-auto z-50 mt-20">
             <form
-                className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
+                className="bg-gray-200  p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
             >
                 <h2 className='text-center'>{member.role}</h2>
                 <input
@@ -141,10 +141,7 @@ const modifyModal: React.FC<MemberProp> = ({ member }) => {
                 <button
                     type="button"
                     className="w-full text-white py-2 rounded bg-gray-800  hover:bg-gray-600"
-                    onClick={() => {
-                        // You can add cancel logic here
-                        console.log("Cancelled");
-                    }}
+                    onClick={onClick}
                 >
                     Return
                 </button>
