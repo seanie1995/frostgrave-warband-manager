@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import MemberCard from "./components/wizardcard"
+import ModifyModal from "./components/modifyModal"
 import { useRouter } from "next/navigation";
 import { MyContext } from "./context/Context";
 import { useContext } from "react";
+import { Wizard, Spell } from "./models/models";
 
 export default function Home() {
   const router = useRouter();
@@ -19,6 +21,24 @@ export default function Home() {
     router.push('/WarbandBuilder')
   }
 
+  const testWizard: Wizard = {
+    name: "Sean",
+    school: "Witch",
+    spells: [] as (Spell | null)[],
+    role: "Wizard",
+    move: 6,
+    fight: 2,
+    shoot: 0,
+    armour: 10,
+    will: 4,
+    health: 14,
+    items: "",
+    notes: "",
+    experience: 0,
+    level: 1,
+    gold: 200
+  }
+
 
   return (
     <>
@@ -28,7 +48,8 @@ export default function Home() {
             <MemberCard key={member.name || index} member={member}></MemberCard>
           ))}
           <button onClick={goToCreatePage} className="bg-blue-300 rounded-2xl h-8 w-8 items-center justify-center flex hover:opacity-80 hover:cursor-pointer"><p className="align-middle text-lg">+</p></button>
-
+          <MemberCard member={testWizard} />
+          <ModifyModal member={testWizard} />
         </div>
 
       </main>
