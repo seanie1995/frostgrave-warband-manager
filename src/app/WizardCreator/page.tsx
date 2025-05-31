@@ -75,7 +75,6 @@ const Page = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-
         const updatedWizard: Wizard = {
             ...wizard,
             school: chosenSchool,
@@ -92,13 +91,14 @@ const Page = () => {
             };
         }
 
+
+
         console.log(updatedWizard)
 
         const warband: Member[] = hasApprentice && updatedApprentice ? [updatedWizard, updatedApprentice] : [updatedWizard]
 
+        localStorage.setItem('warband', JSON.stringify(warband));
         addToWarband(warband);
-
-        alert("Wizard Created")
 
         router.push("/")
 
@@ -118,13 +118,19 @@ const Page = () => {
     }
 
     const handleSpellSelect = (e: ChangeEvent<HTMLSelectElement>, index: number) => {
-        const selectedSpell = JSON.parse(e.target.value) as Spell;
 
-        setSelectedSpells((prev) => {
-            const updated = [...prev];
-            updated[index] = selectedSpell;
-            return updated;
-        });
+        try {
+            const selectedSpell = JSON.parse(e.target.value) as Spell;
+
+            setSelectedSpells((prev) => {
+                const updated = [...prev];
+                updated[index] = selectedSpell;
+                return updated;
+            });
+        } catch {
+            console.log("Have not chosen spell")
+        }
+
     }
 
     useEffect(() => {
@@ -215,6 +221,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 0)}
                         >
+                            <option value="">Select Spell</option>
                             {schoolSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -231,6 +238,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 1)}
                         >
+                            <option value="">Select Spell</option>
                             {schoolSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -246,6 +254,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 2)}
                         >
+                            <option value="">Select Spell</option>
                             {schoolSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -264,6 +273,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 3)}
                         >
+                            <option value="">Select Spell</option>
                             {alignedSpells1.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -282,6 +292,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 4)}
                         >
+                            <option value="">Select Spell</option>
                             {alignedSpells2.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -298,6 +309,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 5)}
                         >
+                            <option value="">Select Spell</option>
                             {alignedSpells3.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -316,6 +328,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 6)}
                         >
+                            <option value="">Select Spell</option>
                             {neutralSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -332,6 +345,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 7)}
                         >
+                            <option value="">Select Spell</option>
                             {neutralSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}

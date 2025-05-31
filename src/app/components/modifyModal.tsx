@@ -3,8 +3,13 @@ import "./styles/modifyModal.css"
 import { Member, MemberProp, Wizard, Apprentice } from "../models/models"
 
 const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
+
+    const handleDelete = (member: Member) => {
+
+    }
+
     return (
-        <main className="fixed inset-0 m-auto z-50 mt-20">
+        <main className="fixed flex inset-0 m-auto z-50 mt-20 justify-center items-center">
             <form
                 className="bg-gray-200  p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
             >
