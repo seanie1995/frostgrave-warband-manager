@@ -1,11 +1,41 @@
-import React from 'react'
+import React, { ChangeEvent, useContext, useState } from 'react'
 import "./styles/modifyModal.css"
 import { Member, MemberProp, Wizard, Apprentice } from "../models/models"
+import { MyContext } from '../context/Context'
 
 const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
 
+    const context = useContext(MyContext)
+
+    if (!context) {
+        throw new Error("MyContext must be used within a provider");
+    }
+
+    const { fullWarband, setFullWarband } = context;
+
+    const [selectedMember, setSelectedMember] = useState<Member>({ ...member })
+
     const handleDelete = (member: Member) => {
 
+        const updatedWarband = fullWarband.filter((e: Member) =>
+            e.name !== member.name
+        )
+        onClick();
+        setFullWarband(updatedWarband);
+
+        localStorage.setItem('warband', JSON.stringify(updatedWarband));
+    }
+
+    const handleChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const updatedWarband = fullWarband
+            .filter((e: Member) => e.name !== member.name)
+            .concat(selectedMember);
+
+        setFullWarband(updatedWarband)
+
+        onClick();
+        localStorage.setItem('warband', JSON.stringify(updatedWarband))
     }
 
     return (
@@ -21,6 +51,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                     className="w-full border rounded px-3 py-2 max-w-xs mx-auto block text-center"
                     required
                     defaultValue={member.name}
+                    onChange={e => setSelectedMember(prev => ({ ...prev, name: e.target.value }))}
                 />
                 <div className='gap-2 flex flex-col flex-wrap justify-evenly'>
 
@@ -30,12 +61,13 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                 <div className="statContainer">
                                     <label htmlFor="level" className="whitespace-nowrap">Level</label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         id="level"
                                         name="level"
                                         className="w-24 border rounded px-3 py-2"
                                         required
                                         defaultValue={(member as Wizard).level}
+                                        onChange={e => setSelectedMember(prev => ({ ...prev, level: Number(e.target.value) }))}
                                     />
                                 </div>
                                 <div className="statContainer">
@@ -47,6 +79,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                         className="w-24 border rounded px-3 py-2"
                                         required
                                         defaultValue={(member as Wizard).experience}
+                                        onChange={e => setSelectedMember(prev => ({ ...prev, experience: Number(e.target.value) }))}
                                     />
                                 </div>
                                 <div className="statContainer">
@@ -58,6 +91,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                         className="w-24 border rounded px-3 py-2"
                                         required
                                         defaultValue={(member as Wizard).gold}
+                                        onChange={e => setSelectedMember(prev => ({ ...prev, experience: Number(e.target.value) }))}
                                     />
                                 </div>
                             </div>
@@ -72,6 +106,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                 className="w-24 border rounded px-3 py-2"
                                 required
                                 defaultValue={member.move}
+                                onChange={e => setSelectedMember(prev => ({ ...prev, move: Number(e.target.value) }))}
                             />
                         </div>
 
@@ -84,6 +119,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                 className="w-24 border rounded px-3 py-2"
                                 required
                                 defaultValue={member.fight}
+                                onChange={e => setSelectedMember(prev => ({ ...prev, fight: Number(e.target.value) }))}
                             />
                         </div>
 
@@ -96,6 +132,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                 className="w-24 border rounded px-3 py-2"
                                 required
                                 defaultValue={member.shoot}
+                                onChange={e => setSelectedMember(prev => ({ ...prev, shoot: Number(e.target.value) }))}
                             />
                         </div>
 
@@ -108,6 +145,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                 className="w-24 border rounded px-3 py-2"
                                 required
                                 defaultValue={member.armour}
+                                onChange={e => setSelectedMember(prev => ({ ...prev, armour: Number(e.target.value) }))}
                             />
                         </div>
 
@@ -120,6 +158,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                 className="w-24 border rounded px-3 py-2"
                                 required
                                 defaultValue={member.will}
+                                onChange={e => setSelectedMember(prev => ({ ...prev, will: Number(e.target.value) }))}
                             />
                         </div>
 
@@ -132,14 +171,16 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                 className="w-24 border rounded px-3 py-2"
                                 required
                                 defaultValue={member.health}
+                                onChange={e => setSelectedMember(prev => ({ ...prev, health: Number(e.target.value) }))}
                             />
                         </div>
                     </div>
 
                 </div>
                 <button
-                    type="submit"
+                    type="button"
                     className="w-full bg-gray-800 text-white py-2 rounded hover:bg-gray-600"
+                    onClick={handleChange}
                 >
                     Save Wizard
                 </button>
@@ -153,10 +194,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                 <button
                     type="button"
                     className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-400"
-                    onClick={() => {
-                        // You can add cancel logic here
-                        console.log("Cancelled");
-                    }}
+                    onClick={() => handleDelete(member)}
                 >
                     Delete
                 </button>

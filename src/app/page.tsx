@@ -34,25 +34,6 @@ export default function Home() {
     setModCardIsVisible(false);
   }
 
-  const testWizard: Wizard = {
-    name: "Sean",
-    school: "Witch",
-    spells: [] as (Spell | null)[],
-    role: "Wizard",
-    move: 6,
-    fight: 2,
-    shoot: 0,
-    armour: 10,
-    will: 4,
-    health: 14,
-    items: "",
-    notes: "",
-    experience: 0,
-    level: 1,
-    gold: 200
-  }
-
-
   return (
     <>
       <main className="max-h-lvh max-w-screen">

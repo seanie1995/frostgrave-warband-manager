@@ -65,7 +65,7 @@ export interface School {
 
 export interface MemberProp {
     member: Member;
-    onClick?: () => void
+    onClick: () => void
 }
 
 export interface SpellProp {

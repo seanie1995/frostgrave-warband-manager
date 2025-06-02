@@ -9,12 +9,12 @@ const WizardCard: React.FC<MemberProp> = ({ member, onClick }) => {
             {member.role === "Wizard" || member.role === "Apprentice" ? <section className="p-1 flex flex-row justify-evenly md:flex-row gap-2">
                 <div>
                     <h2 className="text-lg text-white font-bold">
-                        Wizard: <span className="bg-white px-1 text-black inline-block w-full md:w-48 rounded-lg">{member.name}</span>
+                        {member.role === "Wizard" ? "Wizard" : "Apprentice"}: <span className="bg-white px-1 text-black inline-block w-full md:w-48 rounded-lg">{member.name}</span>
                     </h2>
                 </div>
                 <div>
                     <h2 className="text-lg text-white font-bold">
-                        School: <span className="bg-white px-1 text-black inline-block w-full md:w-32 rounded-lg">{(member as Wizard | Apprentice).school}</span>
+                        School: <span className="bg-white px-1 text-black inline-block w-full md:w-34 rounded-lg">{(member as Wizard | Apprentice).school}</span>
                     </h2>
                 </div>
             </section> :
