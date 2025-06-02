@@ -38,6 +38,42 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
         localStorage.setItem('warband', JSON.stringify(updatedWarband))
     }
 
+    const handleUpgrade = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        const currentWizard = fullWarband.find((e: Member) => e.role !== "Wizard") as Wizard | undefined;
+
+        console.log(fullWarband)
+
+        if (!currentWizard) {
+            console.warn("No Wizard Found");
+            return;
+        }
+
+        const newWizard: Wizard = {
+            ...selectedMember,
+            role: "Wizard",
+            level: currentWizard.level,
+            experience: currentWizard.experience,
+            gold: currentWizard.gold,
+            school: currentWizard.school,
+            spells: currentWizard.spells,
+            health: currentWizard.health,
+            fight: currentWizard.fight
+        };
+
+        const updatedWarband = fullWarband
+            .filter((e: Member) => e.name !== selectedMember.name)
+            .concat(newWizard)
+
+        setFullWarband(updatedWarband);
+        localStorage.setItem("warband", JSON.stringify(updatedWarband));
+        onClick();
+
+        console.log(member)
+
+    }
+
     return (
         <main className="fixed flex inset-0 m-auto z-50 mt-20 justify-center items-center">
             <form
@@ -91,7 +127,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                         className="w-24 border rounded px-3 py-2"
                                         required
                                         defaultValue={(member as Wizard).gold}
-                                        onChange={e => setSelectedMember(prev => ({ ...prev, experience: Number(e.target.value) }))}
+                                        onChange={e => setSelectedMember(prev => ({ ...prev, gold: Number(e.target.value) }))}
                                     />
                                 </div>
                             </div>
@@ -182,7 +218,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                     className="w-full bg-gray-800 text-white py-2 rounded hover:bg-gray-600"
                     onClick={handleChange}
                 >
-                    Save Wizard
+                    Save
                 </button>
                 <button
                     type="button"
@@ -198,6 +234,12 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                 >
                     Delete
                 </button>
+                {member.role === "Apprentice" ?
+                    <button
+                        type="button"
+                        className="w-full text-white py-2 rounded bg-gray-800  hover:bg-gray-600"
+                        onClick={handleUpgrade}>Upgrade to Wizard</button> :
+                    null}
             </form>
         </main>
     )

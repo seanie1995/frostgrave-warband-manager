@@ -73,6 +73,12 @@ export interface SpellProp {
     onClick?: () => void
 }
 
+export interface WarbandResources {
+    warbandGold: number,
+    wizardExp: number,
+    wizardLevel: number
+}
+
 export type Member = Soldier | Apprentice | Wizard;
 
 export type MemberOrMembers = Member | Member[];
