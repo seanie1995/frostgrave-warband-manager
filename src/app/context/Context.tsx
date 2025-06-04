@@ -1,7 +1,6 @@
-// MyContext.tsx
 "use client"
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
-import { Member } from '../models/models';
+import { Member, WarbandResources, Wizard } from '../models/models';
 // Define the type for the context state
 type MyContextType = {
     state: string | null;
@@ -20,8 +19,8 @@ type MyProviderProps = {
 
 export const MyProvider = ({ children }: MyProviderProps) => {
     const [state, setState] = useState<string | null>(null);
-
     const [fullWarband, setFullWarband] = useState<Member[]>([]);
+
 
     useEffect(() => {
         const currentWarband = localStorage.getItem('warband')
@@ -30,12 +29,14 @@ export const MyProvider = ({ children }: MyProviderProps) => {
 
         try {
             const parsed = JSON.parse(currentWarband) as Member[];
+
+            const wizard = parsed.find((e): e is Wizard & { role: "Wizard" } => e.role === "Wizard");
+
             setFullWarband(parsed)
         } catch (e) {
             console.error("Failed to parse warband")
         }
     }, [])
-
 
     return (
         <MyContext.Provider value={{ state, setState, fullWarband, setFullWarband }

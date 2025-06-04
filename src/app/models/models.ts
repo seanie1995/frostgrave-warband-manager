@@ -9,6 +9,8 @@ export interface Soldier {
     health: number;
     items: string;
     notes: string;
+    type: string;
+    cost: number;
 }
 
 export interface Apprentice {

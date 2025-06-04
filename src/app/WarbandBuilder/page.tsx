@@ -23,17 +23,17 @@ const warbandBuilder = () => {
     }
 
     const goToCreateApprentice = () => {
-
         const hasWizards = fullWarband.some((m: Member) => m.role === "Wizard")
-
         if (!hasWizards) {
             alert("You need a wizard to create an apprentice")
             return;
         } else {
             router.push("/ApprenticeCreator");
         }
+    }
 
-
+    const goToCreateSoldiers = () => {
+        router.push("/SoldierBuilder")
     }
 
     return (
@@ -42,7 +42,7 @@ const warbandBuilder = () => {
                 <h1 className="text-xl text-center">Create Warband </h1>
                 <button onClick={goToCreateWizard} className="bg-black text-white rounded-2xl p-1.5 hover:cursor-pointer">Create Wizard</button>
                 <button onClick={goToCreateApprentice} className="bg-black text-white rounded-2xl p-1.5 hover:cursor-pointer">Create Apprentice</button>
-                <button className="bg-black text-white rounded-2xl p-1.5 hover:cursor-pointer">Recruit Soldiers</button>
+                <button onClick={goToCreateSoldiers} className="bg-black text-white rounded-2xl p-1.5 hover:cursor-pointer">Recruit Soldiers</button>
 
 
             </div>

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, ChangeEvent, FormEvent, useContext } from 'react';
 import { MyContext } from '../context/Context';
-import Gamecodex from "../assets/Codex.json"; ''
+import Gamecodex from "../assets/Codex.json";
 import { Wizard, Spell, Apprentice, Member, MemberOrMembers } from "../models/models";
 import { useRouter } from "next/navigation";
 import SpellCard from "../components/spellCard"
@@ -175,6 +175,7 @@ const Page = () => {
 
     return (
         <main className="flex min-h-screen items-center justify-center  bg-gray-50 p-4">
+
             <form
                 className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
                 onSubmit={handleSubmit}

@@ -41,9 +41,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
     const handleUpgrade = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        const currentWizard = fullWarband.find((e: Member) => e.role !== "Wizard") as Wizard | undefined;
-
-        console.log(fullWarband)
+        const currentWizard = fullWarband.find((e: Member) => e.role === "Wizard") as Wizard | undefined;
 
         if (!currentWizard) {
             console.warn("No Wizard Found");
@@ -53,7 +51,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
         const newWizard: Wizard = {
             ...selectedMember,
             role: "Wizard",
-            level: currentWizard.level,
+            level: currentWizard.level < 6 ? 0 : currentWizard.level - 6,
             experience: currentWizard.experience,
             gold: currentWizard.gold,
             school: currentWizard.school,
@@ -70,7 +68,7 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
         localStorage.setItem("warband", JSON.stringify(updatedWarband));
         onClick();
 
-        console.log(member)
+        console.log(newWizard)
 
     }
 
