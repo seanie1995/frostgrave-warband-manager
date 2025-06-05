@@ -3,12 +3,22 @@ import { SpellProp } from '../models/models'
 
 const SpellCard: React.FC<SpellProp> = ({ spell, onClick }) => {
     return (
-        <div className="fixed inset-0 m-auto z-50 mt-20  max-h-4/5  bg-gray-200 opacity-99 max-w-sm p-4 rounded-2xl animate-fadeIn">
-            <div className='flex flex-col gap-4'>
-                <h2>{spell.name}</h2>
-                <p>{spell.targetNumber} | {spell.targetNumber + 2}</p>
-                <p>{spell.description}</p>
-                <button onClick={onClick} className='border-2 w-1/2 m-auto p-1 rounded-md bg-gray-800 text-white'>Return</button>
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 backdrop-blur-sm pt-20 animate-fadeIn">
+            <div className="bg-white max-w-sm w-full p-6 rounded-2xl shadow-xl border border-gray-200">
+                <div className="flex flex-col gap-4 text-gray-800">
+                    <h2 className="text-2xl font-bold">{spell.name}</h2>
+                    <p className="text-sm text-gray-500">
+                        Target Number: <span className="font-medium">{spell.targetNumber}</span> /{" "}
+                        <span className="font-medium">{spell.targetNumber + 2}</span>
+                    </p>
+                    <p className="text-gray-700 whitespace-pre-line leading-relaxed">{spell.description}</p>
+                    <button
+                        onClick={onClick}
+                        className="self-center bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition"
+                    >
+                        Return
+                    </button>
+                </div>
             </div>
         </div>
     )

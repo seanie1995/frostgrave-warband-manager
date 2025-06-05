@@ -2,6 +2,7 @@ import React, { ChangeEvent, useContext, useState } from 'react'
 import "./styles/modifyModal.css"
 import { Member, MemberProp, Wizard, Apprentice } from "../models/models"
 import { MyContext } from '../context/Context'
+import { useEffect } from 'react'
 
 const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
 
@@ -73,10 +74,20 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
 
     }
 
+    useEffect(() => {
+        // When modal mounts, disable scrolling
+        document.body.style.overflow = 'hidden'
+
+        return () => {
+            // When modal unmounts, restore scrolling
+            document.body.style.overflow = 'auto'
+        }
+    }, [])
+
     return (
-        <main className="fixed flex inset-0 m-auto z-50 mt-20 justify-center items-center">
+        <main className="fixed flex inset-0 m-auto z-50  justify-center items-center overflow-y-auto">
             <form
-                className="bg-gray-200  p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
+                className="bg-gray-200 fixed  p-6 rounded-xl shadow-md w-full max-w-md space-y-4 overflow-y-auto"
             >
                 <h2 className='text-center'>{member.role}</h2>
                 <input
@@ -209,6 +220,25 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                                 onChange={e => setSelectedMember(prev => ({ ...prev, health: Number(e.target.value) }))}
                             />
                         </div>
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                        <input
+                            type="text"
+                            name="items"
+                            placeholder="Items"
+                            className="w-full h-20 border rounded px-3 py-2 text-sm text-left resize-none overflow-y-auto"
+                            defaultValue={member.items}
+                            onChange={e => setSelectedMember(prev => ({ ...prev, items: e.target.value }))}
+                        />
+
+                        <input
+                            type="text"
+                            name="notes"
+                            placeholder="Notes"
+                            className="w-full h-20 border rounded px-3 py-2 text-sm text-left resize-none overflow-y-auto"
+                            defaultValue={member.notes}
+                            onChange={e => setSelectedMember(prev => ({ ...prev, notes: e.target.value }))}
+                        />
                     </div>
 
                 </div>

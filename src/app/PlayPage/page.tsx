@@ -36,17 +36,20 @@ const PlayPage = () => {
     }
 
     useEffect(() => {
-        const numberOfWizards = fullWarband.filter(member => member.role === "Wizard");
+        const wizards = fullWarband.filter(member => member.role === "Wizard");
+        const wizardCount = wizards.length;
+        const totalCount = fullWarband.length;
 
-        if (numberOfWizards.length === 0) {
-            setForceOrgMessage("You have no wizards in your warband")
-        } else if (numberOfWizards.length > 1) {
-            setForceOrgMessage("You may only have one wizard in your warband")
-        } else if (fullWarband.length < 10) {
-            setForceOrgMessage("You need ten models in your warband")
+        if (wizardCount === 0) {
+            setForceOrgMessage("You have no wizards in your warband");
+        } else if (wizardCount > 1) {
+            setForceOrgMessage("You may only have one wizard in your warband");
+        } else if (totalCount < 10) {
+            setForceOrgMessage("You need ten models in your warband");
+        } else {
+            setForceOrgMessage("");
         }
-
-    }, [fullWarband])
+    }, [fullWarband]);
 
     return (
         <main className="max-h-screen max-w-screen">
