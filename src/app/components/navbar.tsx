@@ -51,11 +51,11 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="relative inline-block text-left p-4">
+        <nav className="relative inline-block text-left p-4 bg-gray-900 w-full">
             <button
                 type="button"
                 onClick={() => setIsOpen(prev => !prev)}
-                className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-900 text-sm font-medium text-white hover:bg-gray-700"
+                className="inline-flex justify-center  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-700"
             >
                 Menu
             </button>
@@ -63,7 +63,7 @@ const Navbar = () => {
             {isOpen && (
                 <div className="origin-top-left absolute left-4 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                     <div className="py-1 text-gray-800" role="menu">
-                        <a href="/" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Home</a>
+                        <a href="/" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Edit Mode</a>
                         <a href="/PlayPage" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Play Mode</a>
                         <a href="/YourSpells" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Your Spells</a>
                         <a href="/WarbandBuilder" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Add a Member</a>

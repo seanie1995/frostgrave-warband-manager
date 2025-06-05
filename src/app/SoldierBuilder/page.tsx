@@ -97,7 +97,8 @@ const page = () => {
             setWizardGold(change);
 
             localStorage.setItem('warband', JSON.stringify(finalWarband));
-            setSelectedSoldier(null);
+            setSelectedSoldier(prev => prev ? { ...prev, name: '' } : null)
+
         } else {
             alert("U broke");
             return;
@@ -127,7 +128,7 @@ const page = () => {
                         <option value="">Select Soldier</option>
                         {soldierCodexList?.length !== 0 ?
                             soldierCodexList?.map((soldier) => (
-                                <option key={soldier.role} value={JSON.stringify(soldier)}>{soldier.role}</option>
+                                <option key={soldier.role} value={JSON.stringify(soldier)}>{soldier.role} {soldier.cost}g</option>
                             )) : null
                         }
                     </select>

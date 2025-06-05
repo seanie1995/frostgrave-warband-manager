@@ -25,7 +25,7 @@ export default function Home() {
   const [forceOrgMessage, setForceOrgMessage] = useState<string>("");
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [isModCardVisible, setModCardIsVisible] = useState<boolean>(false);
-
+  const [forceOrgColor, setForceOrgColor] = useState<string>()
   const handleCardClick = (member: Member) => {
     setSelectedMember(member);
     setModCardIsVisible(true);
@@ -41,13 +41,17 @@ export default function Home() {
     const totalCount = fullWarband.length;
 
     if (wizardCount === 0) {
+      setForceOrgColor("text-red-600")
       setForceOrgMessage("You have no wizards in your warband");
     } else if (wizardCount > 1) {
+      setForceOrgColor("text-red-600")
       setForceOrgMessage("You may only have one wizard in your warband");
     } else if (totalCount < 10) {
+      setForceOrgColor("text-red-600")
       setForceOrgMessage("You need ten models in your warband");
     } else {
-      setForceOrgMessage("");
+      setForceOrgColor("black")
+      setForceOrgMessage("Frostgrave Warband Manager");
     }
   }, [fullWarband]);
 
@@ -55,7 +59,7 @@ export default function Home() {
   return (
     <>
       <main className="max-h-screen max-w-screen">
-        {fullWarband.length > 0 ? <div className="flex justify-center pt-3 font-bold text-red-600"><p>{forceOrgMessage}</p></div> : null}
+        {fullWarband.length > 0 ? <div className={`flex justify-center pt-3 font-bold ${forceOrgColor}`}><p>{forceOrgMessage}</p></div> : null}
         <div className={`${fullWarband.length === 0 ? 'flex-col' : 'flex'} flex  flex-wrap justify-center items-center border-black p-4 gap-5 text-xl font-bold max-w-screen`}>
 
           {fullWarband.length === 0 ? <div className="flex-col align-middle justify-center text-center"><h1>Frostgrave Warband Manager</h1> <p>Press the + button to create members</p></div> : fullWarband.map((member, index) => (

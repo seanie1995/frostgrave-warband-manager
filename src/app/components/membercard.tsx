@@ -52,30 +52,30 @@ const WizardCard: React.FC<MemberProp> = ({ member, onClick }) => {
             </section> : null}
 
             {/* Stats */}
-            <section className="p-1 flex flex-wrap justify-center gap-2">
+            <section className="p-1 flex justify-evenly">
                 <div className="w-16 flex flex-col items-center justify-center">
                     <h3 className="text-white text-sm font-bold mb-1">Move</h3>
-                    <p className="bg-white w-14 text-lg font-bold rounded-lg text-center">{member.move}</p>
+                    <p className="bg-white w-8 text-lg font-bold rounded-lg text-center">{member.move}</p>
                 </div>
                 <div className="w-16 flex flex-col items-center justify-center">
                     <h3 className="text-white text-sm font-bold mb-1">Fight</h3>
-                    <p className="bg-white w-14 text-lg font-bold rounded-lg text-center">{member.fight}</p>
+                    <p className="bg-white w-8 text-lg font-bold rounded-lg text-center">{member.fight}</p>
                 </div>
                 <div className="w-16 flex flex-col items-center justify-center">
                     <h3 className="text-white text-sm font-bold mb-1">Shoot</h3>
-                    <p className="bg-white w-14 text-lg font-bold rounded-lg text-center">{member.shoot}</p>
+                    <p className="bg-white w-8 text-lg font-bold rounded-lg text-center">{member.shoot}</p>
                 </div>
                 <div className="w-16 flex flex-col items-center justify-center">
                     <h3 className="text-white text-sm font-bold mb-1">Armour</h3>
-                    <p className="bg-white w-14 text-lg font-bold rounded-lg text-center">{member.armour}</p>
+                    <p className="bg-white w-8 text-lg font-bold rounded-lg text-center">{member.armour}</p>
                 </div>
                 <div className="w-16 flex flex-col items-center justify-center">
                     <h3 className="text-white text-sm font-bold mb-1">Will</h3>
-                    <p className="bg-white w-14 text-lg font-bold rounded-lg text-center">{member.will}</p>
+                    <p className="bg-white w-8 text-lg font-bold rounded-lg text-center">{member.will}</p>
                 </div>
                 <div className="w-16 flex flex-col items-center justify-center">
                     <h3 className="text-white text-sm font-bold mb-1">Health</h3>
-                    <p className="bg-white w-14 text-lg font-bold rounded-lg text-center">{member.health}</p>
+                    <p className="bg-white w-8 text-lg font-bold rounded-lg text-center">{member.health}</p>
                 </div>
             </section>
 
