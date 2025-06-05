@@ -28,9 +28,10 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
 
     const handleChange = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const updatedWarband = fullWarband
-            .filter((e: Member) => e.name !== member.name)
-            .concat(selectedMember);
+
+        const updatedWarband = fullWarband.map(m =>
+            m.name === member.name ? selectedMember : m
+        )
 
         setFullWarband(updatedWarband)
 

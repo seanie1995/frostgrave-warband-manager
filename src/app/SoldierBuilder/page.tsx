@@ -3,24 +3,24 @@
 import React, { ChangeEvent, FormEvent, useContext, useEffect } from 'react'
 import Gamecodex from "../assets/Codex.json";
 import { useState } from 'react';
-import { Member, MemberProp, Soldier, WarbandResources, Wizard } from "../models/models"
+import { Member, MemberProp, Soldier, Wizard } from "../models/models"
 import { MyContext } from '../context/Context';
 import { error } from 'console';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
-
+    const router = useRouter();
     const context = useContext(MyContext)
 
     if (!context) {
         throw new Error("You aint got no context")
     }
 
-    const { fullWarband, setFullWarband } = context;
+    const { fullWarband, setFullWarband, wizardGold, setWizardGold } = context;
 
     const [selectedSoldier, setSelectedSoldier] = useState<Soldier | null>(null)
     const [soldierCodexList, setSoldierCodexList] = useState<Soldier[] | null>(null)
     const [soldierList, setSoldierList] = useState<Soldier[] | null>(null);
-    const [gold, setGold] = useState<number>(0)
 
     useEffect(() => {
         const rawSoldiers = Gamecodex.soldiers
@@ -46,10 +46,7 @@ const page = () => {
             return
         }
 
-        setGold(wizard.gold)
-
         setSoldierCodexList(convertedSoldiers);
-
 
     }, [])
 
@@ -61,17 +58,45 @@ const page = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (selectedSoldier && gold >= selectedSoldier.cost) {
+        const specialists = fullWarband.filter(
+            (member): member is Soldier =>
+                'type' in member && member.type === 'Specialist'
+        );
 
-            const updatedGold = gold - selectedSoldier.cost;
+        console.log(specialists.length)
 
-            setFullWarband((prev) => prev ? [...prev, selectedSoldier] : [selectedSoldier]);
+        if (specialists.length > 4) {
+            alert("You have too many specialists. Max 4 ");
+            return;
+        } else if (selectedSoldier?.role === selectedSoldier?.name) {
+            alert("Please give soldier a unique name");
+            return;
+        }
 
 
+        if (selectedSoldier && wizardGold >= selectedSoldier.cost) {
 
-            const updatedWarband = fullWarband;
+            const change = wizardGold - selectedSoldier.cost
+            const wizard = fullWarband.find(member => member.role === "Wizard") as Wizard;
 
-            localStorage.setItem('warband', JSON.stringify(updatedWarband));
+            const updatedWizard = {
+                ...wizard,
+                gold: change
+            };
+
+            const updatedWarband = fullWarband.map((m) =>
+                m.role === "Wizard" ? updatedWizard : m)
+
+            const finalWarband = [...updatedWarband, selectedSoldier]
+
+            console.log(updatedWarband);
+
+            console.log(change)
+
+            setFullWarband(finalWarband);
+            setWizardGold(change);
+
+            localStorage.setItem('warband', JSON.stringify(finalWarband));
             setSelectedSoldier(null);
         } else {
             alert("U broke");
@@ -79,10 +104,14 @@ const page = () => {
         }
     }
 
+    const handleReturn = () => {
+        router.back();
+    }
+
     return (
         <main className="flex flex-col min-h-screen items-center max-w-md justify-center align-middle m-auto p-4 gap-2">
             <section className='flex flex-col p-4'>
-                <h3>Gold: {gold}</h3>
+                <h3>Gold: {wizardGold.toString()}</h3>
             </section>
             <form
                 className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
@@ -136,8 +165,7 @@ const page = () => {
                 </>) : null}
                 <div className='flex gap-2 flex-col w-full justify-center align-middle'>
                     <button type="submit" className="w-2/3 bg-black text-white py-2 m-auto rounded hover:bg-gray-800">Add Soldier</button>
-                    <button type="submit" className="w-2/3 bg-black text-white py-2 m-auto rounded hover:bg-gray-800">Update Warband</button>
-                    <button className="w-2/3 bg-black text-white py-2 m-auto rounded hover:bg-gray-800">Return</button>
+                    {/* <button onClick={handleReturn} className="w-2/3 bg-black text-white py-2 m-auto rounded hover:bg-gray-800">Return</button> */}
                 </div>
                 {fullWarband.length !== 0 ?
                     <>
