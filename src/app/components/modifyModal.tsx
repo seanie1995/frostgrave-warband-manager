@@ -3,9 +3,10 @@ import "./styles/modifyModal.css"
 import { Member, MemberProp, Wizard, Apprentice } from "../models/models"
 import { MyContext } from '../context/Context'
 import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
-
+    const myRouter = useRouter()
     const context = useContext(MyContext)
 
     if (!context) {
@@ -256,6 +257,13 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                 >
                     Return
                 </button>
+                {member.role === "Wizard" ?
+                    <button className="w-full text-white py-2 rounded bg-gray-800  hover:bg-gray-600"
+                        type="button"
+                        onClick={e => myRouter.push("/EditSpells")}
+                    >
+                        Modify Spell Target Values
+                    </button> : null}
                 <button
                     type="button"
                     className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-400"
@@ -263,14 +271,10 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
                 >
                     Delete
                 </button>
-                {member.role === "Apprentice" ?
-                    <button
-                        type="button"
-                        className="w-full text-white py-2 rounded bg-gray-800  hover:bg-gray-600"
-                        onClick={handleUpgrade}>Upgrade to Wizard</button> :
-                    null}
+
+
             </form>
-        </main>
+        </main >
     )
 }
 

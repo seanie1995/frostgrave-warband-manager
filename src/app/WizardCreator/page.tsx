@@ -22,13 +22,38 @@ const Page = () => {
     const [alignedSpells3, setAlignedSpells3] = useState<Spell[]>([]);
     const [neutralSpells, setNeutralSpells] = useState<Spell[]>([]);
 
+    const [neutralSpell1, setNeutralSpell1] = useState<Spell | null>(null)
+    const [neutralSpell2, setNeutralSpell2] = useState<Spell | null>(null)
+
     const [chosenSchoolInfo, setChosenSchoolInfo] = useState<any>(null);
     const [hasApprentice, setHasApprentice] = useState<boolean | null>(false);
     const [selectedSpells, setSelectedSpells] = useState<Spell[]>([]);
+    const [schoolNames, setSchoolNames] = useState<string[]>([]);
 
     const toggleHasApprentice = () => {
         setHasApprentice(prev => !prev)
     }
+
+    const handleNeutralChoice = (e: ChangeEvent<HTMLSelectElement>, index: number) => {
+        if (index === 0) {
+            setNeutralSpell1(JSON.parse(e.target.value))
+        } else if (index === 1) {
+            setNeutralSpell2(JSON.parse(e.target.value))
+        }
+    }
+
+    const schools = [
+        { "id": 1, "name": "Chronomancer" },
+        { "id": 2, "name": "Elementalist" },
+        { "id": 3, "name": "Enchanter" },
+        { "id": 4, "name": "Illusionist" },
+        { "id": 5, "name": "Necromancer" },
+        { "id": 6, "name": "Sigilist" },
+        { "id": 7, "name": "Soothsayer" },
+        { "id": 8, "name": "Summoner" },
+        { "id": 9, "name": "Thaumaturge" },
+        { "id": 10, "name": "Witch" }
+    ]
 
     const [wizard, setWizard] = useState<Wizard>({
         name: "",
@@ -71,9 +96,13 @@ const Page = () => {
         setWizard(prev => ({ ...prev, school: chosenSchool }))
     };
 
-
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (neutralSpell1?.school === neutralSpell2?.school) {
+            alert("You can't have two neutral spells from the same school")
+            return;
+        }
 
         const updatedWizard: Wizard = {
             ...wizard,
@@ -91,17 +120,12 @@ const Page = () => {
             };
         }
 
-
-
-        console.log(updatedWizard)
-
         const warband: Member[] = hasApprentice && updatedApprentice ? [updatedWizard, updatedApprentice] : [updatedWizard]
 
         localStorage.setItem('warband', JSON.stringify(warband));
         addToWarband(warband);
 
         router.push("/")
-
     };
 
     const addToWarband = (newEntry: MemberOrMembers) => {
@@ -128,17 +152,20 @@ const Page = () => {
                 return updated;
             });
         } catch {
-            console.log("Have not chosen spell")
+            console.log("No chosen spell")
         }
 
     }
 
+    // Use Effect that sorts spells according to chosen school.
     useEffect(() => {
         if (!chosenSchool) return;
 
         const foundSchool = Gamecodex.schools.find(
             (school) => school.name === chosenSchool
         );
+
+        let schoolNames: string[];
 
         setChosenSchoolInfo(foundSchool);
 
@@ -161,6 +188,20 @@ const Page = () => {
         const as2 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[1]);
         const as3 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[2]);
 
+        const allAlignedSchools: number[] = [
+            as1[0]?.school,
+            as2[0]?.school,
+            as3[0]?.school
+        ]
+
+        const alignedSchoolNames: string[] = allAlignedSchools
+            .map(id => schools.find(school => school.id === id)?.name)
+            .filter((name): name is string => !!name);
+
+        schoolNames = alignedSchoolNames;
+
+        setSchoolNames(schoolNames);
+
         setAlignedSpells1(as1);
         setAlignedSpells2(as2);
         setAlignedSpells3(as3);
@@ -169,7 +210,9 @@ const Page = () => {
             ? Gamecodex.spells.filter(spell => foundSchool.neutral.includes(spell.school))
             : [];
 
-        setNeutralSpells(neutralSpellsFound);
+        const sortedSpells = neutralSpellsFound.sort((a, b) => a.school - b.school)
+
+        setNeutralSpells(sortedSpells);
 
     }, [chosenSchool]);
 
@@ -222,7 +265,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 0)}
                         >
-                            <option value="">Select Spell</option>
+                            <option value="">-</option>
                             {schoolSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -239,7 +282,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 1)}
                         >
-                            <option value="">Select Spell</option>
+                            <option value="">-</option>
                             {schoolSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -255,7 +298,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 2)}
                         >
-                            <option value="">Select Spell</option>
+                            <option value="">-</option>
                             {schoolSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -274,7 +317,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 3)}
                         >
-                            <option value="">Select Spell</option>
+                            <option value="">- {schoolNames[0]} -</option>
                             {alignedSpells1.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -293,7 +336,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 4)}
                         >
-                            <option value="">Select Spell</option>
+                            <option value="">- {schoolNames[1]} -</option>
                             {alignedSpells2.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -310,7 +353,7 @@ const Page = () => {
                             required
                             onChange={(e) => handleSpellSelect(e, 5)}
                         >
-                            <option value="">Select Spell</option>
+                            <option value="">- {schoolNames[2]} -</option>
                             {alignedSpells3.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
                                     {spell.name}
@@ -327,12 +370,12 @@ const Page = () => {
                             name="neutral1"
                             className="w-full max-w-xs border rounded px-3 py-2 mx-auto block"
                             required
-                            onChange={(e) => handleSpellSelect(e, 6)}
+                            onChange={(e) => { handleSpellSelect(e, 6), handleNeutralChoice(e, 0) }}
                         >
-                            <option value="">Select Spell</option>
+                            <option value="">-</option>
                             {neutralSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
-                                    {spell.name}
+                                    {spell.name} - {spell.schoolName}
                                 </option>
                             ))}
                         </select>
@@ -344,12 +387,12 @@ const Page = () => {
                             name="neutral2"
                             className="w-full max-w-xs border rounded px-3 py-2 mx-auto block"
                             required
-                            onChange={(e) => handleSpellSelect(e, 7)}
+                            onChange={(e) => { handleSpellSelect(e, 7), handleNeutralChoice(e, 1) }}
                         >
-                            <option value="">Select Spell</option>
+                            <option value="">-</option>
                             {neutralSpells.map((spell) => (
                                 <option key={spell.name} value={JSON.stringify(spell)}>
-                                    {spell.name}
+                                    {spell.name} - {spell.schoolName}
                                 </option>
                             ))}
                         </select>

@@ -4,7 +4,7 @@ const soldiercard = () => {
     return (
         <div className="p-2 w-xl bg-gray-900 rounded-xl flex flex-col">
             {/* Top section: Wizard + School */}
-            <section className="p-1 flex flex-row justify-evenly md:flex-row gap-2">
+            <section className="p-1 flex flex-row justify-evenly md:flex-row gap-2 transition-transform duration-200 hover:scale-105">
                 <div>
                     <h2 className="text-lg text-white font-bold">
                         Name: <span className="bg-white px-1 text-black inline-block w-full md:w-48 rounded-lg">Roy</span>

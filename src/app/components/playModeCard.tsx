@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
-import { MemberProp, Wizard, Apprentice, Member } from '../models/models'
+import { MemberProp, Wizard, Apprentice } from '../models/models'
 
 const PlayModeCard: React.FC<MemberProp> = ({ member, onClick }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
-    const openModal = () => setIsModalOpen(true)
-    const closeModal = () => setIsModalOpen(false)
+    const toggleDropdown = () => setIsDropdownOpen(prev => !prev)
 
     return (
-        <>
+        <div>
             <div
-                className="p-2 bg-gray-900 rounded-xl flex flex-col hover:opacity-80 hover:cursor-pointer"
+                className="p-2 bg-gray-900 rounded-xl flex flex-col hover:opacity-80 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
                 onClick={() => {
                     onClick()
-                    openModal()
+                    toggleDropdown()
                 }}
             >
                 {/* Top section: Wizard + School */}
@@ -80,38 +79,23 @@ const PlayModeCard: React.FC<MemberProp> = ({ member, onClick }) => {
                 </section>
             </div>
 
-            {/* Modal */}
-            {isModalOpen && (
-                <div
-                    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-                    onClick={closeModal}
-                >
-                    <div
-                        className="bg-white rounded-lg p-6 max-w-md w-full"
-                        onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside content
-                    >
-                        <h2 className="text-xl font-bold mb-4">{member.name}</h2>
+            {/* Dropdown content */}
+            {isDropdownOpen && (
+                <div className="bg-gray-100 rounded-b-xl p-4 mt-1 max-w-md mx-auto shadow-md">
 
-                        <div className="mb-4">
-                            <h3 className="font-semibold">Items:</h3>
-                            <p className="whitespace-pre-wrap">{member.items || "-"}</p>
-                        </div>
 
-                        <div>
-                            <h3 className="font-semibold">Notes:</h3>
-                            <p className="whitespace-pre-wrap">{member.notes || "-"}</p>
-                        </div>
+                    <div className="mb-4">
+                        <h3 className="font-semibold text-sm">Items:</h3>
+                        <p className="whitespace-pre-wrap text-sm">{member.items || "-"}</p>
+                    </div>
 
-                        <button
-                            onClick={closeModal}
-                            className="mt-6 bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-600"
-                        >
-                            Close
-                        </button>
+                    <div>
+                        <h3 className="font-semibold text-sm">Notes:</h3>
+                        <p className="whitespace-pre-wrap text-sm">{member.notes || "-"}</p>
                     </div>
                 </div>
             )}
-        </>
+        </div>
     )
 }
 

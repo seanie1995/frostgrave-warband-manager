@@ -56,6 +56,7 @@ export interface Spell {
     description: string;
     targetNumber: number;
     type: string;
+    schoolName: string;
 }
 
 export interface School {

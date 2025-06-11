@@ -7,6 +7,7 @@ import { Member, MemberProp, Soldier, Wizard } from "../models/models"
 import { MyContext } from '../context/Context';
 import { error } from 'console';
 import { useRouter } from 'next/navigation';
+import NameCodex from "../assets/names.json"
 
 const page = () => {
     const router = useRouter();
@@ -20,7 +21,7 @@ const page = () => {
 
     const [selectedSoldier, setSelectedSoldier] = useState<Soldier | null>(null)
     const [soldierCodexList, setSoldierCodexList] = useState<Soldier[] | null>(null)
-    const [soldierList, setSoldierList] = useState<Soldier[] | null>(null);
+
 
     useEffect(() => {
         const rawSoldiers = Gamecodex.soldiers
@@ -48,11 +49,44 @@ const page = () => {
 
         setSoldierCodexList(convertedSoldiers);
 
-    }, [])
+    }, [fullWarband])
+
+    useEffect(() => {
+        if (!fullWarband || fullWarband.length === 0) return;
+
+        const wizard = fullWarband.find(member => member.role === "Wizard");
+        if (!wizard) return;
+
+        const rawSoldiers = Gamecodex.soldiers;
+
+        const convertedSoldiers: Soldier[] = rawSoldiers.map(s => ({
+            name: s.name,
+            role: s.class,
+            move: s.move,
+            fight: s.fight,
+            shoot: s.shoot,
+            armour: s.armour,
+            will: s.will,
+            health: s.health,
+            items: s.gear,
+            notes: s.notes,
+            type: s.type,
+            cost: s.cost
+        }));
+
+        setSoldierCodexList(convertedSoldiers);
+
+    }, [fullWarband]);
+
 
     const handleSelectSoldier = (e: ChangeEvent<HTMLSelectElement>) => {
-        const chosen: Soldier = JSON.parse(e.target.value)
-        setSelectedSoldier(chosen)
+        const chosen: Soldier = JSON.parse(e.target.value);
+        const randomName = NameCodex.names[randomNumberGen() - 1];
+        setSelectedSoldier({ ...chosen, name: randomName });
+    }
+
+    const randomNumberGen = () => {
+        return Math.floor(Math.random() * 100) + 1
     }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -65,11 +99,8 @@ const page = () => {
 
         console.log(specialists.length)
 
-        if (specialists.length > 4) {
+        if (specialists.length >= 4) {
             alert("You have too many specialists. Max 4 ");
-            return;
-        } else if (selectedSoldier?.role === selectedSoldier?.name) {
-            alert("Please give soldier a unique name");
             return;
         }
 
@@ -110,12 +141,12 @@ const page = () => {
     }
 
     return (
-        <main className="flex flex-col min-h-screen items-center max-w-md justify-center align-middle m-auto p-4 gap-2">
+        <main className="flex flex-col min-h-screen items-center mt-10 align-middle  m-auto p-4 gap-2">
             <section className='flex flex-col p-4'>
                 <h3>Gold: {wizardGold.toString()}</h3>
             </section>
             <form
-                className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
+                className="bg-white p-6 rounded-xl shadow-md w-full  space-y-4"
                 onSubmit={handleSubmit}
             >
                 <div className='flex flex-col gap-2'>
@@ -160,24 +191,44 @@ const page = () => {
                         type="text"
                         placeholder='Enter Soldier Name'
                         name='soldierName'
-                        value={selectedSoldier.name}
+                        value={selectedSoldier?.name ?? ''}
                         onChange={(e) => setSelectedSoldier((prev) => prev ? ({ ...prev, name: e.target.value }) : null)}
                         required />
                 </>) : null}
                 <div className='flex gap-2 flex-col w-full justify-center align-middle'>
-                    <button type="submit" className="w-2/3 bg-black text-white py-2 m-auto rounded hover:bg-gray-800">Add Soldier</button>
+                    <button type="submit" className="w-2/3 bg-black text-white py-2 m-auto rounded max-w-1/4 hover:bg-gray-800">Add Soldier</button>
                     {/* <button onClick={handleReturn} className="w-2/3 bg-black text-white py-2 m-auto rounded hover:bg-gray-800">Return</button> */}
                 </div>
-                {fullWarband.length !== 0 ?
+                {fullWarband.length !== 0 && (
                     <>
-                        <h3 className='font-bold'>Warband</h3>
-                        <ul>
-                            {fullWarband.map((member) =>
-                            (
-                                <li key={member.name}>{member.name} - {member.role}</li>
-                            ))}
+                        <h3 className='font-bold text-lg mb-2'>Warband: {fullWarband.length}</h3>
+                        <ul className="space-y-3 gap-2 mx-auto flex flex-wrap justify-center">
+                            {fullWarband
+                                .map((member) => (
+                                    <li
+                                        key={member.name}
+                                        className="border rounded-md p-3 shadow-sm hover:shadow-md transition-shadow duration-300 bg-white"
+                                    >
+                                        <div className="flex justify-between  items-center mb-1">
+                                            <h4 className="font-semibold text-base">{member.name}</h4>
+                                            <span className="text-sm italic text-gray-500">{member.role}</span>
+                                        </div>
+                                        {'move' in member && (
+                                            <div className="flex gap-4 text-sm text-gray-700">
+                                                <span>Move: {member.move}</span>
+                                                <span>Fight: {member.fight}</span>
+                                                <span>Shoot: {member.shoot}</span>
+                                                <span>Armour: {member.armour}</span>
+                                                <span>Health: {member.health}</span>
+                                            </div>
+                                        )}
+                                    </li>
+                                ))}
                         </ul>
-                    </> : null}
+                    </>
+                )}
+
+
             </form>
 
 
