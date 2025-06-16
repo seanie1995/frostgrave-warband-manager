@@ -60,7 +60,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="relative inline-block text-left p-4 bg-gray-900 w-full">
+        <nav className="relative inline-block text-left p-4 bg-gray-900 w-screen">
             <button
                 type="button"
                 onClick={() => setIsOpen(prev => !prev)}

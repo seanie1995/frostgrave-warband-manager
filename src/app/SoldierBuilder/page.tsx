@@ -141,18 +141,18 @@ const page = () => {
     }
 
     return (
-        <main className="flex flex-col min-h-screen items-center mt-10 align-middle  m-auto p-4 gap-2">
-            <section className='flex flex-col p-4'>
-                <h3>Gold: {wizardGold.toString()}</h3>
-            </section>
-            <form
-                className="bg-white p-6 rounded-xl shadow-md w-full  space-y-4"
+        <main className="flex min-h-screen mt-5 p-4 gap-2">
+
+            <form className=" p-6 rounded-xl items-center  w-full max-w-xl space-y-4"
                 onSubmit={handleSubmit}
             >
+                <section className='flex flex-col'>
+                    <h3>Gold: {wizardGold.toString()}</h3>
+                </section>
                 <div className='flex flex-col gap-2'>
                     <select
                         name="schoolSpell"
-                        className="w-full max-w-xs border rounded px-3 py-2 m-auto block"
+                        className="w-full xl:max-w-1/2 border rounded px-3 py-2 block"
                         required
                         onChange={(e) => handleSelectSoldier(e)}
                     >
@@ -165,7 +165,7 @@ const page = () => {
                     </select>
                 </div>
                 {selectedSoldier ? (<>
-                    <section className=' flex flex-row gap-6 justify-center items-center'>
+                    <section className='flex flex-row gap-6 '>
                         <p className='text-center'><span className='font-bold'>Move</span> {selectedSoldier?.move}</p>
                         <p className='text-center'><span className='font-bold'>Fight</span> {selectedSoldier?.fight}</p>
                         <p className='text-center'><span className='font-bold'>Shoot </span>{selectedSoldier?.shoot}</p>
@@ -187,7 +187,7 @@ const page = () => {
                         </div>
                     </section>
                     <input
-                        className="w-full border rounded px-3 py-2 max-w-xs mx-auto block"
+                        className="w-full border rounded px-3 py-2 max-w-xs"
                         type="text"
                         placeholder='Enter Soldier Name'
                         name='soldierName'
@@ -196,20 +196,20 @@ const page = () => {
                         required />
                 </>) : null}
                 <div className='flex gap-2 flex-col w-full justify-center align-middle'>
-                    <button type="submit" className="w-2/3 bg-black text-white py-2 m-auto rounded max-w-1/4 hover:bg-gray-800">Add Soldier</button>
+                    <button type="submit" className=" bg-black text-white py-2 rounded xl:max-w-1/2 hover:bg-gray-800">Add Soldier</button>
                     {/* <button onClick={handleReturn} className="w-2/3 bg-black text-white py-2 m-auto rounded hover:bg-gray-800">Return</button> */}
                 </div>
                 {fullWarband.length !== 0 && (
                     <>
                         <h3 className='font-bold text-lg mb-2'>Warband: {fullWarband.length}</h3>
-                        <ul className="space-y-3 gap-2 mx-auto flex flex-wrap justify-center">
+                        <ul className="space-y-3 gap-2 flex flex-wrap">
                             {fullWarband
                                 .map((member) => (
                                     <li
                                         key={member.name}
                                         className="border rounded-md p-3 shadow-sm hover:shadow-md transition-shadow duration-300 bg-white"
                                     >
-                                        <div className="flex justify-between  items-center mb-1">
+                                        <div className="flex justify-between items-center mb-1">
                                             <h4 className="font-semibold text-base">{member.name}</h4>
                                             <span className="text-sm italic text-gray-500">{member.role}</span>
                                         </div>
@@ -227,12 +227,7 @@ const page = () => {
                         </ul>
                     </>
                 )}
-
-
             </form>
-
-
-
         </main>
     )
 }

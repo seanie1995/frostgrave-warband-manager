@@ -62,18 +62,18 @@ const ApprenticeCreator = () => {
 
 
     return (
-        <main className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+        <main className="xl:flex mt-6">
             <form
-                className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
+                className="bg-white p-6 rounded-xl w-full max-w-md space-y-4"
                 onSubmit={handleSubmit}
             >
-                <h1 className="text-2xl font-bold text-center">Create Your Apprentice</h1>
+                <h1 className="text-2xl font-bold ">Create Your Apprentice</h1>
 
                 <input
                     type="text"
                     name="apprenticeName"
                     placeholder="Apprentice Name"
-                    className="w-full border rounded px-3 py-2 max-w-xs mx-auto block"
+                    className="w-full border rounded px-3 py-2 max-w-xs  block"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
