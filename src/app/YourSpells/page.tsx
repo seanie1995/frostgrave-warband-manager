@@ -34,9 +34,9 @@ const YourSpells = () => {
     }
 
     return (
-        <main className="flex justify-center min-h-screen m-auto p-4">
+        <main className="flex justify-center min-h-screen w-screen m-auto p-4">
             <div>
-                <ul className="bg-white rounded-lg  p-6 text-left space-y-2 w-full  justify-between">
+                <ul className="bg-white rounded-lg min-w-[350px] text-left space-y-2   justify-between">
                     {spells?.map(spell => {
                         const isExpanded = !!expandedSpells[spell.name]
                         return (
@@ -56,8 +56,8 @@ const YourSpells = () => {
                                 }}
                             >
                                 <div className="flex justify-between items-center">
-                                    <span className="text-xl font-semibold">
-                                        {spell.name} — {spell.targetNumber} | {spell.targetNumber + 2}
+                                    <span className="text-m font-semibold">
+                                        {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
                                     </span>
                                     <span className="ml-4 px-2 py-1 bg-gray-500 text-white rounded select-none">
                                         {isExpanded ? '−' : '+'}

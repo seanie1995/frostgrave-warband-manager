@@ -142,21 +142,21 @@ const page = () => {
 
     return (
         <main className="flex min-h-screen mt-5 p-4 gap-2">
-
-            <form className=" p-6 rounded-xl items-center  w-full max-w-xl space-y-4"
+            <form className=" p-6 rounded-xl flex flex-col  w-full max-w-xl space-y-4"
                 onSubmit={handleSubmit}
             >
-                <section className='flex flex-col'>
+                <section className=''>
                     <h3>Gold: {wizardGold.toString()}</h3>
                 </section>
-                <div className='flex flex-col gap-2'>
+                <div>
                     <select
-                        name="schoolSpell"
+                        name="soldier"
                         className="w-full xl:max-w-1/2 border rounded px-3 py-2 block"
                         required
                         onChange={(e) => handleSelectSoldier(e)}
                     >
-                        <option value="">Select Soldier</option>
+                        {!selectedSoldier ? <option value="">Select Soldier</option> : null}
+
                         {soldierCodexList?.length !== 0 ?
                             soldierCodexList?.map((soldier) => (
                                 <option key={soldier.role} value={JSON.stringify(soldier)}>{soldier.role} {soldier.cost}g</option>
@@ -164,8 +164,8 @@ const page = () => {
                         }
                     </select>
                 </div>
-                {selectedSoldier ? (<>
-                    <section className='flex flex-row gap-6 '>
+                {selectedSoldier ? (<div className='flex flex-col gap-6'>
+                    <section className='flex flex-row gap-6  '>
                         <p className='text-center'><span className='font-bold'>Move</span> {selectedSoldier?.move}</p>
                         <p className='text-center'><span className='font-bold'>Fight</span> {selectedSoldier?.fight}</p>
                         <p className='text-center'><span className='font-bold'>Shoot </span>{selectedSoldier?.shoot}</p>
@@ -194,15 +194,15 @@ const page = () => {
                         value={selectedSoldier?.name ?? ''}
                         onChange={(e) => setSelectedSoldier((prev) => prev ? ({ ...prev, name: e.target.value }) : null)}
                         required />
-                </>) : null}
+                </div>) : null}
                 <div className='flex gap-2 flex-col w-full justify-center align-middle'>
                     <button type="submit" className=" bg-black text-white py-2 rounded xl:max-w-1/2 hover:bg-gray-800">Add Soldier</button>
                     {/* <button onClick={handleReturn} className="w-2/3 bg-black text-white py-2 m-auto rounded hover:bg-gray-800">Return</button> */}
                 </div>
                 {fullWarband.length !== 0 && (
-                    <>
+                    <div className='w-screen'>
                         <h3 className='font-bold text-lg mb-2'>Warband: {fullWarband.length}</h3>
-                        <ul className="space-y-3 gap-2 flex flex-wrap">
+                        <ul className=" gap-2 flex flex-wrap list-none">
                             {fullWarband
                                 .map((member) => (
                                     <li
@@ -225,7 +225,7 @@ const page = () => {
                                     </li>
                                 ))}
                         </ul>
-                    </>
+                    </div>
                 )}
             </form>
         </main>

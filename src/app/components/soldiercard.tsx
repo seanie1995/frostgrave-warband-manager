@@ -2,7 +2,7 @@ import React from 'react'
 
 const soldiercard = () => {
     return (
-        <div className="p-2 w-xl bg-gray-900 rounded-xl flex flex-col">
+        <div className="p-2 w-xl bg-gray-900 rounded-xl flex flex-col hover:opacity-80 hover:cursor-pointer transition-transform duration-200 hover:scale-105">
             {/* Top section: Wizard + School */}
             <section className="p-1 flex flex-row justify-evenly md:flex-row gap-2 transition-transform duration-200 hover:scale-105">
                 <div>

@@ -60,22 +60,44 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="relative inline-block text-left p-4 bg-gray-900 w-screen">
+        <nav className="relative inline-block text-right p-4 bg-gray-900 w-screen">
+
+
+            {!isPlayMode ? <button
+                type="button"
+                onClick={() => { router.push('/PlayPage'), setIsPlayMode(prev => !prev), setIsOpen(false) }}  // <-- navigate on click
+                className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
+            >
+                Play Mode
+            </button> :
+                <button
+                    type="button"
+                    onClick={() => { router.push('/'), setIsPlayMode(prev => !prev), setIsOpen(false) }}  // <-- navigate on click
+                    className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
+                >
+                    Edit Mode
+                </button>}
+            <button
+                type="button"
+                onClick={() => { router.push('/YourSpells'), setIsOpen(false) }}  // <-- navigate on click
+                className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
+            >
+                Spells
+            </button>
             <button
                 type="button"
                 onClick={() => setIsOpen(prev => !prev)}
                 className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
             >
-                Menu
+                &#9776;
             </button>
             {isOpen && (
-                <div className="origin-top-left absolute left-4 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                <div className="origin-top-right absolute right-4 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
                     <div className="py-1 text-gray-800" role="menu">
-                        <a href="/" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Edit Mode</a>
-                        <a href="/PlayPage" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Play Mode</a>
-                        <a href="/YourSpells" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Your Spells</a>
-                        <a href="/WarbandBuilder" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Add a Member</a>
-                        <a href="/EditSpells" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Edit Spells</a>
+                        <a href="/YourSpells" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">Your Spells</a>
+                        <a href="/EditSpells" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">Edit Spells</a>
+                        <a href="/WarbandBuilder" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">Add a Member</a>
+
                         <button
                             className="block px-4 py-2 text-sm hover:bg-gray-100"
                             onClick={downloadWarband}
@@ -103,27 +125,6 @@ const Navbar = () => {
                     </div>
                 </div>
             )}
-            {!isPlayMode ? <button
-                type="button"
-                onClick={() => { router.push('/PlayPage'), setIsPlayMode(prev => !prev) }}  // <-- navigate on click
-                className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
-            >
-                Play Mode
-            </button> :
-                <button
-                    type="button"
-                    onClick={() => { router.push('/'), setIsPlayMode(prev => !prev) }}  // <-- navigate on click
-                    className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
-                >
-                    Edit Mode
-                </button>}
-            <button
-                type="button"
-                onClick={() => { router.push('/YourSpells') }}  // <-- navigate on click
-                className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
-            >
-                Spells
-            </button>
         </nav>
     )
 }

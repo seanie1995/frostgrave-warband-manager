@@ -58,15 +58,15 @@ export default function Home() {
 
   return (
     <>
-      <main className="max-h-screen max-w-screen">
+      <main className={`max-h-screen max-w-screen `}>
         {fullWarband.length > 0 ? <div className={`flex justify-center pt-3 font-bold ${forceOrgColor}`}><p>{forceOrgMessage}</p></div> : null}
         <div className={`${fullWarband.length === 0 ? 'flex-col' : 'flex'} flex  flex-wrap justify-center items-center border-black p-4 gap-5 text-xl font-bold max-w-screen`}>
 
           {fullWarband.length === 0 ? <div className="flex-col align-middle justify-center text-center"><h1>Frostgrave Warband Manager</h1> <p>Press the + button to create members</p></div> : fullWarband.map((member, index) => (
-            <MemberCard key={member.name || index} member={member} onClick={() => handleCardClick(member)}></MemberCard>
+            <MemberCard isOpen={true} key={member.name || index} member={member} onClick={() => handleCardClick(member)}></MemberCard>
           ))}
           <button onClick={goToCreatePage} className="bg-blue-300 rounded-2xl h-8 w-8 items-center justify-center mb-10 flex hover:opacity-80 hover:cursor-pointer"><p className="align-middle text-lg">+</p></button>
-          {isModCardVisible && selectedMember ? <ModifyModal member={selectedMember} onClick={closeModal} /> : null}
+          {isModCardVisible && selectedMember ? <ModifyModal member={selectedMember} onClick={closeModal} isOpen={isModCardVisible} /> : null}
         </div>
 
       </main>

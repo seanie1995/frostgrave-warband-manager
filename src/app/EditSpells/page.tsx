@@ -63,9 +63,9 @@ const EditSpells = () => {
     }
 
     return (
-        <main className="flex flex-col items-center min-h-screenp-4">
+        <main className="flex flex-col items-center p-4 min-h-screenp-4">
             <div>
-                <ul className=" rounded-lg  p-6 min-w-[350px] text-left space-y-2">
+                <ul className="rounded-lg min-w-[350px] text-left space-y-2">
                     {spells?.map(spell => {
                         return (
                             <li
@@ -83,21 +83,22 @@ const EditSpells = () => {
                                 }}
                             >
                                 <div className="flex justify-between items-center">
-                                    <span className="text-xl font-semibold">{spell.name} — </span>
+                                    <span className="text-m font-semibold">{spell.name} - </span>
+                                    <div>
+                                        <input
+                                            type="number"
+                                            value={spell.targetNumber}
+                                            onClick={e => e.stopPropagation()}
+                                            onChange={e => {
+                                                const val = Number(e.target.value)
+                                                if (!isNaN(val)) {
+                                                    handleTargetNumberChange(spell.name, val)
+                                                }
+                                            }}
+                                            className="w-12 ml-2 text-center rounded border border-gray-300"
+                                        />
+                                        <span className="ml-2 text-m font-semibold">| {spell.targetNumber + 2}</span></div>
 
-                                    <input
-                                        type="number"
-                                        value={spell.targetNumber}
-                                        onClick={e => e.stopPropagation()}
-                                        onChange={e => {
-                                            const val = Number(e.target.value)
-                                            if (!isNaN(val)) {
-                                                handleTargetNumberChange(spell.name, val)
-                                            }
-                                        }}
-                                        className="w-12 mx-2 text-center rounded border border-gray-300"
-                                    />
-                                    <span className="ml-2 text-xl font-semibold">| {spell.targetNumber + 2}</span>
                                 </div>
                             </li>
                         )
@@ -106,7 +107,7 @@ const EditSpells = () => {
                 <div className='flex'>
                     <button
                         onClick={handleSave}
-                        className=" bg-gray-800 m-auto  text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                        className=" bg-gray-800 m-auto  text-white px-4 py-2 mt-2 rounded hover:bg-blue-700 transition"
                     >
                         Save Changes
                     </button>

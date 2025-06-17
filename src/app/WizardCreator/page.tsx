@@ -254,7 +254,8 @@ const Page = () => {
                     onChange={handleSchoolChange}
                     value={chosenSchool}
                 >
-                    <option value="">Choose School</option>
+                    {!chosenSchool ? <option value="">Choose School</option> : null}
+
                     <option value="Chronomancer">Chronomancer</option>
                     <option value="Elementalist">Elementalist</option>
                     <option value="Enchanter">Enchanter</option>

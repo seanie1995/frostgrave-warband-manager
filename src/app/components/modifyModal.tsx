@@ -5,7 +5,7 @@ import { MyContext } from '../context/Context'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
+const modifyModal: React.FC<MemberProp> = ({ member, onClick, isOpen }) => {
     const myRouter = useRouter()
     const context = useContext(MyContext)
 
@@ -86,7 +86,10 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick }) => {
     }, [])
 
     return (
-        <main className="fixed flex inset-0 m-auto z-50  justify-center items-center overflow-y-auto">
+        <main
+            className={`fixed flex inset-0 m-auto z-50 transition-colors duration-300 ease-in-out justify-center items-center overflow-y-auto ${isOpen ? 'bg-black/80' : 'bg-transparent pointer-events-none'
+                }`}
+        >
             <form
                 className="bg-gray-200 fixed  p-6 rounded-xl shadow-md w-full max-w-md space-y-4 overflow-y-auto"
             >
