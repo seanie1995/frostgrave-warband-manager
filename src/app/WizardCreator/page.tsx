@@ -131,6 +131,7 @@ const Page = () => {
 
         if (uniqueSpells.length < 8) {
             alert("You have duplicate spells")
+            return;
         }
 
         const warband: Member[] = hasApprentice && updatedApprentice ? [updatedWizard, updatedApprentice] : [updatedWizard]

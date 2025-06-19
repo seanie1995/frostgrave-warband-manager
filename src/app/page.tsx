@@ -65,7 +65,9 @@ export default function Home() {
           {fullWarband.length === 0 ? <div className="flex-col align-middle justify-center text-center"><h1>Frostgrave Warband Manager</h1> <p>Press the + button to create members</p></div> : fullWarband.map((member, index) => (
             <MemberCard isOpen={true} key={member.name || index} member={member} onClick={() => handleCardClick(member)}></MemberCard>
           ))}
-          <button onClick={goToCreatePage} className="bg-blue-300 rounded-2xl h-8 w-8 items-center justify-center mb-10 flex hover:opacity-80 hover:cursor-pointer"><p className="align-middle text-lg">+</p></button>
+          <button onClick={goToCreatePage} className="bg-blue-300 rounded-2xl h-8 w-8 items-center justify-center mb-10 flex hover:opacity-80 hover:cursor-pointer">
+            <p className="align-middle text-lg  transition-transform duration-200 hover:scale-105">+</p>
+          </button>
           {isModCardVisible && selectedMember ? <ModifyModal member={selectedMember} onClick={closeModal} isOpen={isModCardVisible} /> : null}
         </div>
 
