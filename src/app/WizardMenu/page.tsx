@@ -1,96 +1,151 @@
-import React, { ChangeEvent, useContext, useState } from 'react'
-import { Member, MemberProp, Wizard, Apprentice } from "../models/models"
-import { MyContext } from '../context/Context'
+'use client'
+
+import React, { ChangeEvent, useState } from 'react'
+import { Member, MemberProp, Wizard, Apprentice, Spell } from "../models/models"
+import { MyContext } from "../context/Context"
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
 
 const WizardPage = () => {
+    const context = useContext(MyContext);
+    if (!context) {
+        throw new Error("MyContext must be used within a provider");
+    }
+    const { fullWarband, setFullWarband } = context;
+
+    const [wizard, setWizard] = useState<Wizard | null>(null);
+    const [wizardSpells, setWizardSpells] = useState<Spell[] | null>([]);
+    const [spellList, setSpellList] = useState<Spell[] | null>([]);
+    const [addSpell, setAddSpell] = useState<boolean>(false);
+
+    useEffect(() => {
+        const found = fullWarband.find(e => e.role === "Wizard") as Wizard;
+
+        const foundSpells = found.spells as Spell[];
+
+        setWizardSpells(foundSpells);
+        setWizard(found);
+    }, [fullWarband])
+
     return (
-        <main className="min-h-screen w-screen bg-gray-50 p-4">
-            <form className="flex flex-col justify-center bg-white p-6 rounded-xl shadow-md w-screen space-y-4">
-                <h1 className='text-2xl font-bold'>Wizard</h1>
-                <h2 className='font-bold text-xl'>School</h2>
+        <main className="min-h-screen  bg-gray-50 p-4">
+            <form className="flex flex-col justify-center bg-white p-6 rounded-xl shadow-md  space-y-4">
+                <h1 className='text-2xl font-bold'>Your Wizard</h1>
+
                 <input
                     type="text"
                     name="wizardName"
                     placeholder="Name"
                     required
-                    className='border-1 border-black rounded max-w-1/5 py-2 pl-2'
+                    className='border-1 border-black rounded min-w-1/8 sm:max-w-1/4 py-2 pl-2'
+                    value={`${wizard?.name}`}
+                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+
                 />
-                <div>
+                <h2 className='text-lg font-bold'>School: {wizard?.school}</h2>
+                <div className='flex max-w-full'>
                     <div className='flex gap-6 flex-col'>
-                        <div className='flex sm:max-w-screen gap-3'>
+                        <div className='gap-3 flex flex-wrap max-w-1/2'>
                             <div className='flex flex-col gap-2'>
-                                <label>Level</label>
-                                <input type="number" required className='border-1 p-1 border-black rounded' />
+                                <label className='font-bold'>Level</label>
+                                <input type="number" required className='border-1 p-1 border-black rounded'
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    value={wizard?.level} />
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label>Exp</label>
-                                <input type="number" required className='border-1 p-1 border-black rounded' />
+                                <label className='font-bold' >Exp</label>
+                                <input type="number" required className='border-1 p-1 border-black rounded'
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    value={wizard?.experience} />
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label>Gold</label>
-                                <input type="number" required className='border-1 p-1 border-black rounded' />
+                                <label className='font-bold'>Gold</label>
+                                <input type="number" required className='border-1 p-1 border-black rounded'
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    value={wizard?.gold} />
                             </div>
                         </div>
                         {/* STAT LINE */}
-                        <div className='flex flex-wrap align-middle gap-3'>
+                        <div className='flex flex-wrap max-w-screen align-middle gap-3'>
                             <div className='flex flex-col gap-2'>
-                                <label>Move</label>
-                                <input type="number" className='border-1 p-1 border-black rounded' required />
+                                <label className='font-bold'>Move</label>
+                                <input type="number" className='border-1 p-1 border-black rounded' required
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    value={wizard?.move} />
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label>Fight</label>
-                                <input type="number" className='border-1 p-1 border-black rounded' required />
+                                <label className='font-bold'>Fight</label>
+                                <input type="number" className='border-1 p-1 border-black rounded' required
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    value={wizard?.fight} />
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label>Shoot</label>
-                                <input type="number" className='border-1 p-1 border-black rounded' required />
+                                <label className='font-bold'>Shoot</label>
+                                <input type="number" className='border-1 p-1 border-black rounded' required
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    value={wizard?.shoot} />
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label>Armor</label>
-                                <input type="number" className='border-1 p-1 border-black rounded' required />
+                                <label className='font-bold'>Armor</label>
+                                <input type="number" className='border-1 p-1 border-black rounded' required
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    value={wizard?.armour} />
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label>Will</label>
-                                <input type="number" className='border-1 p-1 border-black rounded' required />
+                                <label className='font-bold'>Will</label>
+                                <input type="number" className='border-1 p-1 border-black rounded' required
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    value={wizard?.will} />
                             </div>
                             <div className='flex flex-col gap-2'>
-                                <label>Health</label>
-                                <input type="number" className='border-1 p-1 border-black rounded' required />
+                                <label className='font-bold'>Health</label>
+                                <input type="number" className='border-1 p-1 border-black rounded' required
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    value={wizard?.health} />
                             </div>
                         </div>
                         {/* ITEMS AND NOTES */}
-                        <div className='flex gap-2'>
+                        <div className='flex flex-wrap gap-2'>
                             <input
 
                                 type="text"
                                 name="items"
                                 placeholder="Items"
                                 className='border-1 py-10 pr-16 pl-2 rounded'
+                                onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
                             />
                             <input
                                 type="text"
                                 name="notes"
                                 placeholder="Notes"
                                 className='border-1 py-10 pr-16 pl-2 rounded'
+                                onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
                             />
                         </div>
                         {/* ALL SPELLS */}
                         <div>
-                            <label htmlFor="">All Spells</label>
-                            <ul>
-                                <li>Put spells here</li>
+                            <label htmlFor="" className='font-bold'>{wizard?.name}'s Spells</label>
+                            <ul className='flex flex-row gap-4 flex-wrap mt-2' >
+                                {!wizardSpells ? <p>No Spells</p> :
+                                    wizardSpells.map(spells =>
+                                        <li className=" border-1 p-1 rounded font-bold " key={spells.name} value={spells.name}>{spells.name} - {spells.targetNumber} | {spells.targetNumber + 2}</li>)
+                                }
                             </ul>
                         </div>
                     </div>
-
-
-
                 </div>
-                <button type="button" className='border-1 max-w-26 rounded-md p-1 hover:bg-gray-600 hover:cursor-pointers  bg-gray-800 text-white'>
-                    Save
-                </button>
+                <div className='flex flex-row gap-2'>
+                    <button type="button" className='border-1 min-w-20 rounded-md p-2 hover:bg-gray-600 hover:cursor-pointer  bg-gray-800 text-white'>
+                        Save
+                    </button>
+                    <button type="button" className='border-1  rounded-md p-2 hover:bg-gray-600 hover:cursor-pointer  bg-gray-800 text-white'>
+                        Add Spells
+                    </button>
+                    <button type="button" className='border-1  rounded-md p-2 hover:bg-gray-600 hover:cursor-pointer  bg-gray-800 text-white'>
+                        Modify Spells
+                    </button>
+                </div>
+
             </form>
         </main>
     )

@@ -59,6 +59,14 @@ const Navbar = () => {
         fileInputRef.current?.click()
     }
 
+    const goToWizardMenu = () => {
+        if (fullWarband.find(e => e.role === "Wizard")) {
+            router.push('/WizardMenu')
+        } else (
+            alert("You have no wizard")
+        )
+    }
+
     return (
         <nav className="relative inline-block text-right p-4 bg-gray-900 w-screen">
             {!isPlayMode ? <button
@@ -77,7 +85,7 @@ const Navbar = () => {
                 </button>}
             <button
                 type="button"
-                onClick={() => { router.push('/WizardMenu'), setIsOpen(false) }}  // <-- navigate on click
+                onClick={() => { goToWizardMenu(), setIsOpen(false) }}  // <-- navigate on click
                 className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
             >
                 Wizard Menu
