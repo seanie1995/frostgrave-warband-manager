@@ -447,13 +447,13 @@ const Page = () => {
                 <div className='flex space-x-2'>
                     <button
                         type="submit"
-                        className="w-sm bg-black text-white py-2 rounded hover:bg-gray-800"
+                        className="w-sm bg-black sm:max-w-1/12 text-white py-2 rounded hover:bg-gray-800"
                     >
                         Save Wizard
                     </button>
                     <button
                         type="button"
-                        className="w-sm bg-red-600 text-white py-2 rounded hover:bg-gray-800"
+                        className="w-sm bg-red-600 sm:max-w-1/12 sm:not-[]:max-w-1/12 text-white py-2 rounded hover:bg-gray-800"
                         onClick={() => {
                             // You can add cancel logic here
                             console.log("Cancelled");

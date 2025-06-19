@@ -61,8 +61,6 @@ const Navbar = () => {
 
     return (
         <nav className="relative inline-block text-right p-4 bg-gray-900 w-screen">
-
-
             {!isPlayMode ? <button
                 type="button"
                 onClick={() => { router.push('/PlayPage'), setIsPlayMode(prev => !prev), setIsOpen(false) }}  // <-- navigate on click
@@ -77,6 +75,13 @@ const Navbar = () => {
                 >
                     Edit Mode
                 </button>}
+            <button
+                type="button"
+                onClick={() => { router.push('/WizardMenu'), setIsOpen(false) }}  // <-- navigate on click
+                className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
+            >
+                Wizard Menu
+            </button>
             <button
                 type="button"
                 onClick={() => { router.push('/YourSpells'), setIsOpen(false) }}  // <-- navigate on click
