@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useState } from 'react'
 import { Member, MemberProp, Wizard, Apprentice, Spell } from "../models/models"
 import { MyContext } from "../context/Context"
 import { useEffect } from 'react'
@@ -20,25 +20,31 @@ const WizardPage = () => {
     const [wizard, setWizard] = useState<Wizard | null>(null);
     const [wizardSpells, setWizardSpells] = useState<Spell[] | null>([]);
     const [spellList, setSpellList] = useState<Spell[] | null>([]);
-    const [addSpell, setAddSpell] = useState<boolean>(false);
+    const [addSpellModal, setAddSpellModal] = useState<boolean>(false);
     const [chosenSpell, setChosenSpell] = useState<Spell | null>(null);
+    const [deleteSpellMode, setDeleteSpellMode] = useState<boolean>(false)
 
     useEffect(() => {
+        if (!fullWarband || fullWarband.length === 0) return;
         const found = fullWarband.find(e => e.role === "Wizard") as Wizard;
-        const foundSpells = found.spells as Spell[];
 
+        try {
+            const foundSpells = found?.spells as Spell[];
+            const selectableSpells = Gamecodex.spells.filter(
+                s => !foundSpells.some(existing => existing.name === s.name)
+            );
 
+            const sortedSpells = selectableSpells.sort((a, b) => a.schoolName.localeCompare(b.schoolName))
 
-        const selectableSpells = Gamecodex.spells.filter(
-            s => !foundSpells.some(existing => existing.name === s.name)
-        );
+            setChosenSpell(sortedSpells[0])
+            setSpellList(sortedSpells);
+            setWizardSpells(foundSpells);
+            setWizard(found);
+        } catch (e) {
+            alert(e)
+        }
 
-        const sortedSpells = selectableSpells.sort((a, b) => a.schoolName.localeCompare(b.schoolName))
-
-        setSpellList(sortedSpells);
-        setWizardSpells(foundSpells);
-        setWizard(found);
-    }, [])
+    }, [fullWarband])
 
     const handleAddSpell = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -53,15 +59,53 @@ const WizardPage = () => {
             }
 
         } else {
-            throw new Error("Somefing went wrong")
+            throw new Error()
         }
+    }
 
+    const handleDeleteSpell = (spellName: string) => {
+        if (!wizardSpells) return;
+
+        var updatedWizardSpells = wizardSpells?.filter(e => e.name !== spellName)
+
+        setWizardSpells(updatedWizardSpells);
+        setDeleteSpellMode(false);
+        alert("Don't forget to press save")
+
+    }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e?.preventDefault();
+
+        try {
+            var updatedWizard = wizard;
+
+            if (updatedWizard) {
+                updatedWizard.spells = wizardSpells ?? [];
+            }
+
+            const updatedWarband = fullWarband.map(w =>
+                w.name === updatedWizard?.name ? updatedWizard : w
+            );
+
+            console.log(updatedWizard);
+
+            setFullWarband(updatedWarband);
+
+            localStorage.setItem("warband", JSON.stringify(updatedWarband));
+            setDeleteSpellMode(false)
+            setAddSpellModal(false);
+            alert("Changes saved successfuly")
+        } catch (ex) {
+            alert(ex)
+        }
 
     }
 
     return (
         <main className="min-h-screen  bg-gray-50 p-4">
-            <form className="flex flex-col justify-center bg-white p-6 rounded-xl shadow-md  space-y-4">
+            <form className="flex flex-col justify-center bg-white p-6 rounded-xl shadow-md  space-y-4"
+                onSubmit={handleSubmit}>
                 <h1 className='text-2xl font-bold'>Your Wizard</h1>
 
                 <input
@@ -81,19 +125,19 @@ const WizardPage = () => {
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold'>Level</label>
                                 <input type="number" required className='border-1 p-1 border-black rounded'
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, level: Number(e.target.value) }) : null)}
                                     value={wizard?.level || ''} />
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold' >Exp</label>
                                 <input type="number" required className='border-1 p-1 border-black rounded'
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                                    value={wizard?.experience || ''} />
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, experience: Number(e.target.value) }) : null)}
+                                    value={wizard?.experience || 0} />
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold'>Gold</label>
                                 <input type="number" required className='border-1 p-1 border-black rounded'
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, Gold: Number(e.target.value) }) : null)}
                                     value={wizard?.gold || ''} />
                             </div>
                         </div>
@@ -102,38 +146,38 @@ const WizardPage = () => {
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold'>Move</label>
                                 <input type="number" className='border-1 p-1 border-black rounded' required
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                                    value={wizard?.move || ''} />
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, move: Number(e.target.value) }) : null)}
+                                    value={wizard?.move || 0} />
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold'>Fight</label>
                                 <input type="number" className='border-1 p-1 border-black rounded' required
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                                    value={wizard?.fight || ''} />
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, fight: Number(e.target.value) }) : null)}
+                                    value={wizard?.fight || 0} />
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold'>Shoot</label>
                                 <input type="number" className='border-1 p-1 border-black rounded' required
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                                    value={wizard?.shoot || ''} />
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, shoot: Number(e.target.value) }) : null)}
+                                    value={wizard?.shoot || 0} />
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold'>Armor</label>
                                 <input type="number" className='border-1 p-1 border-black rounded' required
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                                    value={wizard?.armour || ''} />
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, armour: Number(e.target.value) }) : null)}
+                                    value={wizard?.armour || 0} />
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold'>Will</label>
                                 <input type="number" className='border-1 p-1 border-black rounded' required
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                                    value={wizard?.will || ''} />
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, will: Number(e.target.value) }) : null)}
+                                    value={wizard?.will || 0} />
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold'>Health</label>
                                 <input type="number" className='border-1 p-1 border-black rounded' required
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
-                                    value={wizard?.health || ''} />
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, health: Number(e.target.value) }) : null)}
+                                    value={wizard?.health || 0} />
                             </div>
                         </div>
                         {/* ITEMS AND NOTES */}
@@ -144,14 +188,14 @@ const WizardPage = () => {
                                 name="items"
                                 placeholder="Items"
                                 className='border-1 pb-16 pr-14 pl-1 rounded'
-                                onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                onChange={e => setWizard(prev => prev ? ({ ...prev, items: e.target.value }) : null)}
                             />
                             <input
                                 type="text"
                                 name="notes"
                                 placeholder="Notes"
                                 className='border-1 pb-16 pr-14 pl-1 rounded'
-                                onChange={e => setWizard(prev => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                onChange={e => setWizard(prev => prev ? ({ ...prev, notes: e.target.value }) : null)}
                             />
                         </div>
                         {/* ALL SPELLS */}
@@ -160,18 +204,20 @@ const WizardPage = () => {
                             <ul className='flex flex-row gap-4 flex-wrap mt-2' >
                                 {!wizardSpells ? <p>No Spells</p> :
                                     wizardSpells.map(spells =>
-                                        <li className=" border-1 p-1 rounded font-bold " key={spells.name} value={spells.name}>{spells.name} - {spells.targetNumber} | {spells.targetNumber + 2}</li>)
+                                        <li className=" border-1 p-1 rounded font-bold flex " key={spells.name}
+                                            value={spells.name}>{spells.name} - {spells.targetNumber} | {spells.targetNumber + 2}
+                                            {deleteSpellMode ? <button onClick={() => handleDeleteSpell(spells.name)} className='bg-red-600 px-2 ml-2 rounded-md hover:cursor-pointer hover:bg-red-400'>X</button> : null}</li>)
                                 }
                             </ul>
                         </div>
                     </div>
                 </div>
-                {addSpell ?
+                {addSpellModal ?
                     <div>
                         <p className=' pb-2 font-bold'>Choose Spell</p>
                         <select
                             name='spell'
-                            value={chosenSpell?.name}
+                            value={chosenSpell ? JSON.stringify(chosenSpell) : ""}
                             className='border-1 min-w-40 p-2 rounded'
                             onChange={e => setChosenSpell(JSON.parse(e.target.value))}
                         >
@@ -189,11 +235,14 @@ const WizardPage = () => {
                     : null
                 }
                 <div className='flex flex-row gap-2'>
-                    <button type="button" className='border-1 min-w-20 rounded-md p-2 hover:bg-gray-600 hover:cursor-pointer  bg-gray-800 text-white'>
+                    <button type="submit" className='border-1 min-w-20 rounded-md p-2 hover:bg-gray-600 hover:cursor-pointer  bg-gray-800 text-white'>
                         Save
                     </button>
-                    <button onClick={e => setAddSpell(prev => !prev)} type="button" className='border-1  rounded-md p-2 hover:bg-gray-600 hover:cursor-pointer  bg-gray-800 text-white'>
+                    <button onClick={e => setAddSpellModal(prev => !prev)} type="button" className='border-1  rounded-md p-2 hover:bg-gray-600 hover:cursor-pointer  bg-gray-800 text-white'>
                         Add Spells
+                    </button>
+                    <button onClick={e => setDeleteSpellMode(prev => !prev)} type="button" className='border-1  rounded-md p-2 hover:bg-red-600 hover:cursor-pointer  bg-red-800 text-white'>
+                        Remove Spells
                     </button>
                     <button onClick={e => router.push("/EditSpells")} type="button" className='border-1  rounded-md p-2 hover:bg-gray-600 hover:cursor-pointer  bg-gray-800 text-white'>
                         Modify Spells

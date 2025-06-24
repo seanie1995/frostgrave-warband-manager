@@ -19,6 +19,11 @@ const modifyModal: React.FC<MemberProp> = ({ member, onClick, isOpen }) => {
 
     const handleDelete = (member: Member) => {
 
+        if (member.role === "Wizard") {
+            const confirmed = window.confirm("Are you sure you want to delete this wizard?")
+            if (!confirmed) return;
+        }
+
         const updatedWarband = fullWarband.filter((e: Member) =>
             e.name !== member.name
         )

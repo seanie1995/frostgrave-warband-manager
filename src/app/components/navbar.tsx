@@ -67,6 +67,15 @@ const Navbar = () => {
         )
     }
 
+    const ClearWarband = () => {
+        const confirmed = window.confirm("Are you sure you want to clear warband?")
+        if (!confirmed) return;
+
+        setFullWarband([])
+        localStorage.clear();
+        setIsOpen(false);
+    }
+
     return (
         <nav className="relative inline-block text-right p-4 bg-gray-900 w-screen">
             {!isPlayMode ? <button
@@ -134,6 +143,13 @@ const Navbar = () => {
                             role="menuitem"
                         >
                             Upload Warband
+                        </button>
+                        <button
+                            className="block px-4 py-2 text-sm hover:bg-gray-100"
+                            onClick={ClearWarband}
+                            role="menuitem"
+                        >
+                            Clear Warband
                         </button>
                     </div>
                 </div>
