@@ -198,9 +198,14 @@ const Page = () => {
 
         setSchoolSpells(ownSchoolSpellsFound);
 
-        const as1 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[0]);
-        const as2 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[1]);
-        const as3 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[2]);
+        var as1 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[0]);
+        var as2 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[1]);
+        var as3 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[2]);
+
+        as1.forEach(s => s.targetNumber = s.targetNumber += 2)
+        as2.forEach(s => s.targetNumber = s.targetNumber += 2)
+        as3.forEach(s => s.targetNumber = s.targetNumber += 2)
+
 
         const allAlignedSchools: number[] = [
             as1[0]?.school,
@@ -220,9 +225,11 @@ const Page = () => {
         setAlignedSpells2(as2);
         setAlignedSpells3(as3);
 
-        const neutralSpellsFound = Array.isArray(foundSchool.neutral)
+        var neutralSpellsFound = Array.isArray(foundSchool.neutral)
             ? Gamecodex.spells.filter(spell => foundSchool.neutral.includes(spell.school))
             : [];
+
+        neutralSpellsFound.forEach(s => s.targetNumber += 4)
 
         const sortedSpells = neutralSpellsFound.sort((a, b) => a.school - b.school)
 
@@ -283,7 +290,7 @@ const Page = () => {
                                 <option value="">-</option>
                                 {schoolSpells.map((spell) => (
                                     <option key={spell.name} value={JSON.stringify(spell)}>
-                                        {spell.name}
+                                        {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
                                     </option>
                                 ))}
                             </select>
@@ -300,7 +307,7 @@ const Page = () => {
                                 <option value="">-</option>
                                 {schoolSpells.map((spell) => (
                                     <option key={spell.name} value={JSON.stringify(spell)}>
-                                        {spell.name}
+                                        {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
                                     </option>
                                 ))}
                             </select>
@@ -316,7 +323,7 @@ const Page = () => {
                                 <option value="">-</option>
                                 {schoolSpells.map((spell) => (
                                     <option key={spell.name} value={JSON.stringify(spell)}>
-                                        {spell.name}
+                                        {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
                                     </option>
                                 ))}
                             </select>
@@ -340,7 +347,7 @@ const Page = () => {
                                     <option value="">- {schoolNames[0]} -</option>
                                     {alignedSpells1.map((spell) => (
                                         <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name}
+                                            {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
                                         </option>
 
                                     ))}
@@ -359,7 +366,7 @@ const Page = () => {
                                     <option value="">- {schoolNames[1]} -</option>
                                     {alignedSpells2.map((spell) => (
                                         <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name}
+                                            {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
                                         </option>
                                     ))}
                                 </select>
@@ -376,7 +383,7 @@ const Page = () => {
                                     <option value="">- {schoolNames[2]} -</option>
                                     {alignedSpells3.map((spell) => (
                                         <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name}
+                                            {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
                                         </option>
                                     ))}
                                 </select>
@@ -399,7 +406,7 @@ const Page = () => {
                                     <option value="">-</option>
                                     {neutralSpells.map((spell) => (
                                         <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name} - {spell.schoolName}
+                                            {spell.name} - {spell.schoolName} - {spell.targetNumber} | {spell.targetNumber + 2}
                                         </option>
                                     ))}
                                 </select>
@@ -416,7 +423,7 @@ const Page = () => {
                                     <option value="">-</option>
                                     {neutralSpells.map((spell) => (
                                         <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name} - {spell.schoolName}
+                                            {spell.name} - {spell.schoolName} - {spell.targetNumber} | {spell.targetNumber + 2}
                                         </option>
                                     ))}
                                 </select>

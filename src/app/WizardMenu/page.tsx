@@ -27,6 +27,7 @@ const WizardPage = () => {
     useEffect(() => {
         if (!fullWarband || fullWarband.length === 0) return;
         const found = fullWarband.find(e => e.role === "Wizard") as Wizard;
+        if (!found) return;
 
         try {
             const foundSpells = found?.spells as Spell[];
@@ -34,7 +35,9 @@ const WizardPage = () => {
                 s => !foundSpells.some(existing => existing.name === s.name)
             );
 
-            const sortedSpells = selectableSpells.sort((a, b) => a.schoolName.localeCompare(b.schoolName))
+            const updatedTargetNumberSpells = ModifyTargetNumbers(selectableSpells)
+
+            const sortedSpells = updatedTargetNumberSpells.sort((a, b) => a.schoolName.localeCompare(b.schoolName))
 
             setChosenSpell(sortedSpells[0])
             setSpellList(sortedSpells);
@@ -45,6 +48,30 @@ const WizardPage = () => {
         }
 
     }, [fullWarband])
+
+    const ModifyTargetNumbers = (Spells: Spell[]) => {
+        const schoolName = wizard?.school
+        const school = Gamecodex.schools.find(s => s.name === schoolName)
+
+        const updatedSpells = Spells.map(spell => {
+            let newTargetNumber = spell.targetNumber
+
+            if (school?.aligned.includes(spell.school)) {
+                newTargetNumber += 2
+            } else if (school?.neutral.includes(spell.school)) {
+                newTargetNumber += 4
+            } else if (school?.opposed.includes(spell.school)) {
+                newTargetNumber += 6
+            }
+
+            return {
+                ...spell,
+                targetNumber: newTargetNumber
+            }
+        })
+
+        return updatedSpells
+    }
 
     const handleAddSpell = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -137,7 +164,7 @@ const WizardPage = () => {
                             <div className='flex flex-col gap-2'>
                                 <label className='font-bold'>Gold</label>
                                 <input type="number" required className='border-1 p-1 border-black rounded'
-                                    onChange={e => setWizard(prev => prev ? ({ ...prev, Gold: Number(e.target.value) }) : null)}
+                                    onChange={e => setWizard(prev => prev ? ({ ...prev, gold: Number(e.target.value) }) : null)}
                                     value={wizard?.gold || ''} />
                             </div>
                         </div>
@@ -222,7 +249,7 @@ const WizardPage = () => {
                             onChange={e => setChosenSpell(JSON.parse(e.target.value))}
                         >
                             {spellList?.map(spell =>
-                                <option value={JSON.stringify(spell)} key={spell.name}>{spell.name} - {spell.schoolName}</option>
+                                <option value={JSON.stringify(spell)} key={spell.name}>{spell.name} - {spell.schoolName} - {spell.targetNumber} | {spell.targetNumber + 2}</option>
                             )}
                         </select>
                         <button
