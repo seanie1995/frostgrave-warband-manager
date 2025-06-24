@@ -74,86 +74,92 @@ const Navbar = () => {
         setFullWarband([])
         localStorage.clear();
         setIsOpen(false);
+        router.push("/")
     }
 
     return (
-        <nav className="relative inline-block text-right p-4 bg-gray-900 w-screen">
-            {!isPlayMode ? <button
-                type="button"
-                onClick={() => { router.push('/PlayPage'), setIsPlayMode(prev => !prev), setIsOpen(false) }}  // <-- navigate on click
-                className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
-            >
-                Play Mode
-            </button> :
+        <nav className="relative flex justify-between text-right p-4 bg-gray-900 w-screen">
+            <a href="/"><h1 className='font-bold text-white text-3xl'>FROSTGRAVE MANAGER</h1></a>
+            <div>
+                {!isPlayMode ?
+
+                    <button
+                        type="button"
+                        onClick={() => { router.push('/PlayPage'), setIsPlayMode(prev => !prev), setIsOpen(false) }}  // <-- navigate on click
+                        className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
+                    >
+                        Play Mode
+                    </button> :
+                    <button
+                        type="button"
+                        onClick={() => { router.push('/'), setIsPlayMode(prev => !prev), setIsOpen(false) }}  // <-- navigate on click
+                        className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
+                    >
+                        Edit Mode
+                    </button>}
                 <button
                     type="button"
-                    onClick={() => { router.push('/'), setIsPlayMode(prev => !prev), setIsOpen(false) }}  // <-- navigate on click
+                    onClick={() => { goToWizardMenu(), setIsOpen(false) }}  // <-- navigate on click
                     className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
                 >
-                    Edit Mode
-                </button>}
-            <button
-                type="button"
-                onClick={() => { goToWizardMenu(), setIsOpen(false) }}  // <-- navigate on click
-                className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
-            >
-                Wizard Menu
-            </button>
-            <button
-                type="button"
-                onClick={() => { router.push('/YourSpells'), setIsOpen(false) }}  // <-- navigate on click
-                className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
-            >
-                Spells
-            </button>
-            <button
-                type="button"
-                onClick={() => setIsOpen(prev => !prev)}
-                className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
-            >
-                &#9776;
-            </button>
-            {isOpen && (
-                <div className="origin-top-right absolute right-4 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                    <div className="py-1 text-gray-800" role="menu">
-                        <a href="/YourSpells" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">Your Spells</a>
-                        <a href="/EditSpells" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">Edit Spells</a>
-                        <a href="/WarbandBuilder" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">Add a Member</a>
+                    Wizard Menu
+                </button>
+                <button
+                    type="button"
+                    onClick={() => { router.push('/YourSpells'), setIsOpen(false) }}  // <-- navigate on click
+                    className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
+                >
+                    Spells
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setIsOpen(prev => !prev)}
+                    className="inline-flex justify-center mr-1  rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-black text-sm font-medium hover:bg-gray-200"
+                >
+                    &#9776;
+                </button>
+                {isOpen && (
+                    <div className="origin-top-right absolute right-4 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                        <div className="py-1 text-gray-800" role="menu">
+                            <a href="/YourSpells" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">Your Spells</a>
+                            <a href="/EditSpells" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">Edit Spells</a>
+                            <a href="/WarbandBuilder" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">Add a Member</a>
+                            <a href="/AllSpells" className="block px-4 py-2 text-sm text-left hover:bg-gray-100" role="menuitem">All Spells</a>
+                            <button
+                                className="block px-4 py-2 text-sm text-left hover:bg-gray-100"
+                                onClick={downloadWarband}
+                                role="menuitem"
+                            >
+                                Download Warband
+                            </button>
 
-                        <button
-                            className="block px-4 py-2 text-sm hover:bg-gray-100"
-                            onClick={downloadWarband}
-                            role="menuitem"
-                        >
-                            Download Warband
-                        </button>
+                            {/* Hidden file input */}
+                            <input
+                                type="file"
+                                accept="application/json"
+                                ref={fileInputRef}
+                                onChange={handleFileUpload}
+                                className="hidden"
+                            />
 
-                        {/* Hidden file input */}
-                        <input
-                            type="file"
-                            accept="application/json"
-                            ref={fileInputRef}
-                            onChange={handleFileUpload}
-                            className="hidden"
-                        />
-
-                        <button
-                            className="block px-4 py-2 text-sm hover:bg-gray-100"
-                            onClick={onUploadButtonClick}
-                            role="menuitem"
-                        >
-                            Upload Warband
-                        </button>
-                        <button
-                            className="block px-4 py-2 text-sm hover:bg-gray-100"
-                            onClick={ClearWarband}
-                            role="menuitem"
-                        >
-                            Clear Warband
-                        </button>
+                            <button
+                                className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                onClick={onUploadButtonClick}
+                                role="menuitem"
+                            >
+                                Upload Warband
+                            </button>
+                            <button
+                                className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                onClick={ClearWarband}
+                                role="menuitem"
+                            >
+                                Clear Warband
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </nav>
     )
 }

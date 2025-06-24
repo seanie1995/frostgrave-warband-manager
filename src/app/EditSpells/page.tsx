@@ -60,6 +60,7 @@ const EditSpells = () => {
         })
 
         setFullWarband(newWarband)
+        alert("Changes Saved")
     }
 
     return (

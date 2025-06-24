@@ -238,7 +238,7 @@ const Page = () => {
     }, [chosenSchool]);
 
     return (
-        <main className="min-h-screen w-screen bg-gray-50 p-4">
+        <main className="min-h-screen w-screen bg-gray-50">
             <form
                 className="flex flex-col justify-center bg-white p-6 rounded-xl shadow-md w-screen space-y-4"
                 onSubmit={handleSubmit}
