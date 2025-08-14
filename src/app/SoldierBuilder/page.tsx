@@ -85,6 +85,10 @@ const page = () => {
         setSelectedSoldier({ ...chosen, name: randomName });
     }
 
+    const randomName = () => {
+        return NameCodex.names[randomNumberGen() - 1];
+    }
+
     const randomNumberGen = () => {
         return Math.floor(Math.random() * 100) + 1
     }
@@ -128,10 +132,10 @@ const page = () => {
             setWizardGold(change);
 
             localStorage.setItem('warband', JSON.stringify(finalWarband));
-            setSelectedSoldier(prev => prev ? { ...prev, name: '' } : null)
+            setSelectedSoldier(prev => prev ? { ...prev, name: randomName() } : null)
 
         } else {
-            alert("U broke");
+            alert("Not enough gold");
             return;
         }
     }

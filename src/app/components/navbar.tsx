@@ -79,7 +79,10 @@ const Navbar = () => {
 
     return (
         <nav className="relative flex justify-between text-right p-4 bg-gray-900 w-screen">
-            <a href="/"><h1 className='font-bold text-white text-3xl'>FROSTGRAVE MANAGER</h1></a>
+            <a href="/"><h1 className="font-bold text-white text-3xl">
+                <span className="hidden sm:inline">FROSTGRAVE MANAGER</span>
+                <span className="sm:hidden"></span>
+            </h1></a>
             <div>
                 {!isPlayMode ?
 

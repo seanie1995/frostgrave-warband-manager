@@ -33,6 +33,10 @@ const YourSpells = () => {
         }))
     }
 
+    useEffect(() => {
+
+    })
+
     return (
         <main className="flex justify-center min-h-screen w-screen m-auto p-4">
             <div>
