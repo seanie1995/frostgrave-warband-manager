@@ -3,7 +3,7 @@
 A **Next.js (React + TypeScript)** web app for managing your *Frostgrave* warbands.  
 Keep track of your wizard, apprentice, soldiers, spells, equipment, and more — all in one place.
 
-About Frostgrave
+## About Frostgrave
 
 Frostgrave is a fantasy skirmish wargame by Joseph A. McCullough, published by Osprey Games.
 This project is a fan-made companion app and is not affiliated with or endorsed by Osprey Games.
@@ -43,30 +43,4 @@ This project is a fan-made companion app and is not affiliated with or endorsed 
 └── README.md # This file
 
 
----
 
-## Getting Started
-
-### Prerequisites
-- [Node.js](https://nodejs.org/) (LTS recommended)
-- npm (comes with Node)
-
-### Installation
-```bash
-# Clone the repository
-git clone https://github.com/seanie1995/frostgrave-warband-manager.git
-
-# Enter the project folder
-cd frostgrave-warband-manager
-
-# Install dependencies
-npm install
-
-# Start the dev server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm run start
