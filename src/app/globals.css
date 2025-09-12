@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+/* global.css */
+:root {
+    --background-color: #eaf3fc;
+    /* very light, icy blue */
+    --foreground-color: #171717;
+    /* keep dark text for contrast */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    font-family: 'Inter', sans-serif;
+    /* optional: clean modern font */
+    margin: 0;
+    padding: 0;
+}

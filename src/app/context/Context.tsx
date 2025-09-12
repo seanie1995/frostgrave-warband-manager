@@ -56,8 +56,6 @@ export const MyProvider = ({ children }: MyProviderProps) => {
         }
     }, [fullWarband])
 
-
-
     return (
         <MyContext.Provider value={{ state, setState, fullWarband, setFullWarband, wizardGold, setWizardGold }
         }>

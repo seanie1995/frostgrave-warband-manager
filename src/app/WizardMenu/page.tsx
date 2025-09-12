@@ -130,7 +130,7 @@ const WizardPage = () => {
     }
 
     return (
-        <main className="min-h-screen  bg-gray-50 p-4">
+        <main className="min-h-screen   p-4">
             <form className="flex flex-col justify-center bg-white p-6 rounded-xl shadow-md  space-y-4"
                 onSubmit={handleSubmit}>
                 <h1 className='text-2xl font-bold'>Your Wizard</h1>
@@ -165,7 +165,7 @@ const WizardPage = () => {
                                 <label className='font-bold'>Gold</label>
                                 <input type="number" required className='border-1 p-1 border-black rounded'
                                     onChange={e => setWizard(prev => prev ? ({ ...prev, gold: Number(e.target.value) }) : null)}
-                                    value={wizard?.gold || ''} />
+                                    value={wizard?.gold || '0'} />
                             </div>
                         </div>
                         {/* STAT LINE */}
@@ -208,21 +208,24 @@ const WizardPage = () => {
                             </div>
                         </div>
                         {/* ITEMS AND NOTES */}
-                        <div className='flex flex-wrap gap-2'>
+                        <div className='flex flex-col gap-2'>
+                            <label className='font-bold'>Items</label>
                             <input
-
                                 type="text"
                                 name="items"
                                 placeholder="Items"
-                                className='border-1 pb-16 pr-14 pl-1 rounded'
+                                className='border-1 pb-16 pr-14 pl-1 rounded md:max-w-1/3'
                                 onChange={e => setWizard(prev => prev ? ({ ...prev, items: e.target.value }) : null)}
+                                value={wizard?.items || ""}
                             />
+                            <label className='font-bold'>Notes</label>
                             <input
                                 type="text"
                                 name="notes"
                                 placeholder="Notes"
-                                className='border-1 pb-16 pr-14 pl-1 rounded'
+                                className='border-1 pb-16 pr-14 pl-1 rounded md:max-w-1/3'
                                 onChange={e => setWizard(prev => prev ? ({ ...prev, notes: e.target.value }) : null)}
+                                value={wizard?.notes || ""}
                             />
                         </div>
                         {/* ALL SPELLS */}

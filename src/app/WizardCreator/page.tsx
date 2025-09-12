@@ -179,8 +179,6 @@ const Page = () => {
             (school) => school.name === chosenSchool
         );
 
-        let schoolNames: string[];
-
         setChosenSchoolInfo(foundSchool);
 
         if (!foundSchool) {
@@ -192,50 +190,44 @@ const Page = () => {
             return;
         }
 
-        const ownSchoolSpellsFound = Gamecodex.spells.filter(
-            (spells) => spells.school === foundSchool.id
-        );
-
+        // Own school spells
+        const ownSchoolSpellsFound = Gamecodex.spells
+            .filter(spell => spell.school === foundSchool.id)
+            .map(s => ({ ...s })); // clone to avoid mutation
         setSchoolSpells(ownSchoolSpellsFound);
 
-        var as1 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[0]);
-        var as2 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[1]);
-        var as3 = Gamecodex.spells.filter(spells => spells.school === foundSchool.aligned[2]);
-
-        as1.forEach(s => s.targetNumber = s.targetNumber += 2)
-        as2.forEach(s => s.targetNumber = s.targetNumber += 2)
-        as3.forEach(s => s.targetNumber = s.targetNumber += 2)
-
-
-        const allAlignedSchools: number[] = [
-            as1[0]?.school,
-            as2[0]?.school,
-            as3[0]?.school
-        ]
-
-        const alignedSchoolNames: string[] = allAlignedSchools
-            .map(id => schools.find(school => school.id === id)?.name)
-            .filter((name): name is string => !!name);
-
-        schoolNames = alignedSchoolNames;
-
-        setSchoolNames(schoolNames);
+        // Aligned spells (add +2 targetNumber)
+        const as1 = Gamecodex.spells
+            .filter(spell => spell.school === foundSchool.aligned[0])
+            .map(s => ({ ...s, targetNumber: s.targetNumber + 2 }));
+        const as2 = Gamecodex.spells
+            .filter(spell => spell.school === foundSchool.aligned[1])
+            .map(s => ({ ...s, targetNumber: s.targetNumber + 2 }));
+        const as3 = Gamecodex.spells
+            .filter(spell => spell.school === foundSchool.aligned[2])
+            .map(s => ({ ...s, targetNumber: s.targetNumber + 2 }));
 
         setAlignedSpells1(as1);
         setAlignedSpells2(as2);
         setAlignedSpells3(as3);
 
-        var neutralSpellsFound = Array.isArray(foundSchool.neutral)
+        // Neutral spells (add +4 targetNumber)
+        const neutralSpellsFound = (Array.isArray(foundSchool.neutral)
             ? Gamecodex.spells.filter(spell => foundSchool.neutral.includes(spell.school))
-            : [];
+            : []
+        ).map(s => ({ ...s, targetNumber: s.targetNumber + 4 }));
 
-        neutralSpellsFound.forEach(s => s.targetNumber += 4)
+        const sortedNeutral = neutralSpellsFound.sort((a, b) => a.school - b.school);
+        setNeutralSpells(sortedNeutral);
 
-        const sortedSpells = neutralSpellsFound.sort((a, b) => a.school - b.school)
-
-        setNeutralSpells(sortedSpells);
+        // Aligned school names for display
+        const alignedSchoolNames = [as1, as2, as3]
+            .map(arr => schools.find(s => s.id === arr[0]?.school)?.name)
+            .filter((name): name is string => !!name);
+        setSchoolNames(alignedSchoolNames);
 
     }, [chosenSchool]);
+
 
     return (
         <main className="min-h-screen w-screen bg-gray-50">

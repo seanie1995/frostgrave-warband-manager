@@ -40,7 +40,7 @@ const YourSpells = () => {
     return (
         <main className="flex justify-center min-h-screen w-screen m-auto p-4">
             <div>
-                <ul className="bg-white rounded-lg min-w-[350px] text-left space-y-2   justify-between">
+                <ul className=" rounded-lg min-w-[350px] text-left space-y-2   justify-between">
                     {spells?.map(spell => {
                         const isExpanded = !!expandedSpells[spell.name]
                         return (

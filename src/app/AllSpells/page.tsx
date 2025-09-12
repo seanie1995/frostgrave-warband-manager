@@ -27,7 +27,8 @@ const AllSpells = () => {
     }, [])
 
     return (
-        <div className="min-h-screen w-screen bg-gray-50 p-4">
+        <div className="min-h-screen w-screen mt-20  p-4">
+            <p className='font-bold'>Select a Spell</p>
             <select
                 name="chosenSpell"
                 value={chosenSpell ? JSON.stringify(chosenSpell) : ""}

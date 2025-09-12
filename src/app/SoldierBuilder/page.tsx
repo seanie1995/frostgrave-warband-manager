@@ -206,29 +206,35 @@ const page = () => {
                 {fullWarband.length !== 0 && (
                     <div className='w-screen'>
                         <h3 className='font-bold text-lg mb-2'>Warband: {fullWarband.length}</h3>
-                        <ul className=" gap-2 flex flex-wrap list-none">
-                            {fullWarband
-                                .map((member) => (
-                                    <li
-                                        key={member.name}
-                                        className="border rounded-md p-3 shadow-sm hover:shadow-md transition-shadow duration-300 bg-white"
-                                    >
-                                        <div className="flex justify-between items-center mb-1">
-                                            <h4 className="font-semibold text-base">{member.name}</h4>
-                                            <span className="text-sm italic text-gray-500">{member.role}</span>
+                        <ul className="grid gap-4 
+                                        grid-cols-1 
+                                        sm:grid-cols-2 
+                                        md:grid-cols-3 
+                                        lg:grid-cols-4 
+                                        list-none">
+                            {fullWarband.map((member) => (
+                                <li
+                                    key={member.name}
+                                    className="border max-w-4/5 rounded-md p-3 shadow-sm hover:shadow-md transition-shadow duration-300 bg-white"
+                                >
+                                    <div className="flex gap-2 items-center mb-1">
+                                        <h4 className="font-semibold text-base">{member.name}  |</h4>
+                                        <span className="text-sm italic text-gray-500"> {member.role}</span>
+                                    </div>
+
+                                    {'move' in member && (
+                                        <div className="flex gap-2 text-sm text-gray-700">
+                                            <span>Move: {member.move}</span>
+                                            <span>Fight: {member.fight}</span>
+                                            <span>Shoot: {member.shoot}</span>
+                                            <span>Armour: {member.armour}</span>
+                                            <span>Health: {member.health}</span>
                                         </div>
-                                        {'move' in member && (
-                                            <div className="flex gap-4 text-sm text-gray-700">
-                                                <span>Move: {member.move}</span>
-                                                <span>Fight: {member.fight}</span>
-                                                <span>Shoot: {member.shoot}</span>
-                                                <span>Armour: {member.armour}</span>
-                                                <span>Health: {member.health}</span>
-                                            </div>
-                                        )}
-                                    </li>
-                                ))}
+                                    )}
+                                </li>
+                            ))}
                         </ul>
+
                     </div>
                 )}
             </form>

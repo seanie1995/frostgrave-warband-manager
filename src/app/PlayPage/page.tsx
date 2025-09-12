@@ -57,16 +57,44 @@ const PlayPage = () => {
 
     return (
         <main className="max-h-screen max-w-screen">
-            {fullWarband.length > 0 ? <div className={`flex justify-center pt-3 font-bold ${forceOrgColor}`}><p>{forceOrgMessage}</p></div> : null}
-            <div className={`${fullWarband.length === 0 ? 'flex-col' : 'flex'} flex  flex-wrap justify-center items-center border-black p-4 gap-5 text-xl font-bold max-w-screen`}>
+            {fullWarband.length > 0 && (
+                <div className={`flex justify-center pt-3 font-bold ${forceOrgColor}`}>
+                    <p>{forceOrgMessage}</p>
+                </div>
+            )}
 
-                {fullWarband.length === 0 ? <div className="flex-col align-middle justify-center text-center"><h1>Frostgrave Warband Manager</h1> <p>Press the + button to create members</p></div> : fullWarband.map((member, index) => (
-                    <PlayModeCard key={member.name || index} member={member} onClick={() => handleCardClick(member)}></PlayModeCard>
-                ))}
-                <button onClick={goToCreatePage} className="bg-blue-300 rounded-2xl h-8 w-8 items-center justify-center mb-10 flex hover:opacity-80 hover:cursor-pointer"><p className="align-middle text-lg">+</p></button>
+            <div className={`grid gap-5 p-4 text-xl font-bold border-black 
+                   grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center`}>
+
+                {fullWarband.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center text-center col-span-full">
+                        <h1>Frostgrave Warband Manager</h1>
+                        <p>Press the + button to create members</p>
+                    </div>
+                ) : (
+                    fullWarband.map((member, index) => (
+                        <div className="w-full h-full" key={member.name || index}>
+                            <PlayModeCard
+                                key={member.name || index}
+                                member={member}
+                                onClick={() => handleCardClick(member)}
+                                isOpen
+                            />
+                        </div>
+                    ))
+                )}
+
+                <button
+                    onClick={goToCreatePage}
+                    className="bg-blue-300 rounded-2xl h-8 w-8 items-center justify-center mb-10 flex hover:opacity-80 hover:cursor-pointer col-span-1 self-center"
+                >
+                    <p className="align-middle text-lg">+</p>
+                </button>
+
                 {/* {isModCardVisible && selectedMember ? <ModifyModal member={selectedMember} onClick={closeModal} /> : null} */}
             </div>
         </main>
+
     )
 }
 
