@@ -31,16 +31,7 @@ This project is a fan-made companion app and is not affiliated with or endorsed 
 
 ---
 
-## 📂 Project Structure
-├── public/ # Static assets
-├── src/app/ # App source code
-│ ├── components/ # Reusable UI components
-│ ├── lib/ # Utility functions, data helpers
-│ └── pages/ # Page routes
-├── next.config.ts # Next.js configuration
-├── tsconfig.json # TypeScript configuration
-├── package.json # Dependencies & scripts
-└── README.md # This file
+
 
 
 
