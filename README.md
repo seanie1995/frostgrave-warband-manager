@@ -1,7 +1,7 @@
 # Frostgrave Warband Manager
 
 A **Next.js (React + TypeScript)** web app for managing your *Frostgrave* warbands.  
-Keep track of your wizard, apprentice, soldiers, spells, equipment, and more — all in one place.
+Keep track of your wizard, apprentice, soldiers, spells, equipment, and more, all in one place.
 
 ## About Frostgrave
 
