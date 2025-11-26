@@ -1,8 +1,37 @@
-# Warband Manager
+# Frostgrave Warband Manager
 
-Warband Manager is a lightweight React-based app designed to help you organize and manage your **Frostgrave** warband. Easily track your **Wizards**, **Apprentices**, and **Warband Members**, including their stats, spells, and equipment — all in one place.
+A **Next.js (React + TypeScript)** web app for managing your *Frostgrave* warbands.  
+Keep track of your wizard, apprentice, soldiers, spells, equipment, and more, all in one place.
 
-Perfect for keeping your game data organized and accessible during play.
+## About Frostgrave
+
+Frostgrave is a fantasy skirmish wargame by Joseph A. McCullough, published by Osprey Games.
+This project is a fan-made companion app and is not affiliated with or endorsed by Osprey Games.
+
+---
+
+## ✨ Features
+
+- 📖 Create and manage multiple **warbands**  
+- 🧙 Track **wizard** and **apprentice** stats  
+- ⚔️ Add, edit, and remove **soldiers** with their gear  
+- ✨ Manage known **spells** for your wizard and apprentice  
+- 💰 Keep track of **gold, items, and resources**  
+- 📤 Export and 📥 import warbands as **JSON** for easy sharing or backup  
+- 💾 All data stored **locally in your browser** (no account or server needed)  
+
+---
+
+## 🚀 Tech Stack
+
+- [Next.js](https://nextjs.org/) – React framework  
+- [TypeScript](https://www.typescriptlang.org/) – Type safety  
+- [Tailwind CSS](https://tailwindcss.com/) – Styling  
+- Local storage / JSON – Persistent data without a backend  
+
+---
+
+
 
 
 
