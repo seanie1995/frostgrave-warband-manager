@@ -1,12 +1,10 @@
 'use client'
 
-import React, { ChangeEvent, FormEvent, useContext, useEffect } from 'react'
-import Gamecodex from "../assets/Codex.json";
-import { useState } from 'react';
-import { Member, MemberProp, Soldier, Wizard } from "../models/models"
-import { MyContext } from '../context/Context';
-import { error } from 'console';
-import PlayModeCard from '../components/playModeCard'
+import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
+import Gamecodex from "@/assets/Codex.json";
+import { Member, MemberProp, Soldier, Wizard } from "@/models/models"
+import { MyContext } from '@/context/Context';
+import PlayModeCard from '@/components/PlayModeCard'
 import { useRouter } from 'next/navigation';
 
 const PlayPage = () => {

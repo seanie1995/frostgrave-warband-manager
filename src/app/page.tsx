@@ -1,13 +1,11 @@
 'use client';
 
-import Image from "next/image";
-import MemberCard from "./components/membercard"
-import ModifyModal from "./components/modifyModal"
+import MemberCard from "@/components/MemberCard"
+import ModifyModal from "@/components/ModifyModal"
 import { useRouter } from "next/navigation";
-import { MyContext } from "./context/Context";
-import { useContext, useEffect } from "react";
-import { Wizard, Spell, Member } from "./models/models";
-import { useState } from "react";
+import { MyContext } from "@/context/Context";
+import { useContext, useState } from "react";
+import { Member } from "@/models/models";
 
 export default function Home() {
   const router = useRouter();
@@ -22,87 +20,99 @@ export default function Home() {
     router.push('/WarbandBuilder')
   }
 
-  const [forceOrgMessage, setForceOrgMessage] = useState<string>("");
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [isModCardVisible, setModCardIsVisible] = useState<boolean>(false);
-  const [forceOrgColor, setForceOrgColor] = useState<string>()
+  const [isOpen, setIsOpen] = useState(false); // Added missing state for modal
+
   const handleCardClick = (member: Member) => {
     setSelectedMember(member);
     setModCardIsVisible(true);
+    setIsOpen(true);
   }
 
   const closeModal = () => {
     setModCardIsVisible(false);
+    setIsOpen(false);
+    setSelectedMember(null);
   }
 
-  useEffect(() => {
-    const wizards = fullWarband.filter(member => member.role === "Wizard");
-    const wizardCount = wizards.length;
-    const totalCount = fullWarband.length;
+  const wizards = fullWarband.filter(member => member.role === "Wizard");
+  const wizardCount = wizards.length;
+  const totalCount = fullWarband.length;
 
-    if (wizardCount === 0) {
-      setForceOrgColor("text-red-600")
-      setForceOrgMessage("You have no wizards in your warband");
-    } else if (wizardCount > 1) {
-      setForceOrgColor("text-red-600")
-      setForceOrgMessage("You may only have one wizard in your warband");
-    } else if (totalCount < 10) {
-      setForceOrgColor("text-red-600")
-      setForceOrgMessage("You need ten models in your warband");
-    } else {
-      setForceOrgColor("black")
-      setForceOrgMessage("Frostgrave Warband Manager");
-    }
-  }, [fullWarband]);
+  let forceOrgMessage = "Frostgrave Warband Manager";
+  let forceOrgColor = "bg-slate-500"; // Default color
+
+  if (wizardCount === 0) {
+    forceOrgColor = "bg-red-500"
+    forceOrgMessage = "You have no wizards in your warband";
+  } else if (wizardCount > 1) {
+    forceOrgColor = "bg-red-500"
+    forceOrgMessage = "You may only have one wizard in your warband";
+  } else if (totalCount < 10) {
+    forceOrgColor = "bg-yellow-500"
+    forceOrgMessage = "You need ten models in your warband";
+  } else {
+    forceOrgColor = "bg-green-500"
+    forceOrgMessage = "Warband Ready";
+  }
 
 
   return (
-    <>
-      <main className="max-h-screen max-w-screen">
-        {fullWarband.length > 0 && (
-          <div className={`flex justify-center pt-3 font-bold ${forceOrgColor}`}>
-            <p>{forceOrgMessage}</p>
-          </div>
-        )}
+    <main className="min-h-screen pb-20 px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto">
+            {/* Header / Status Bar */}
+            {fullWarband.length > 0 && (
+                <div className="glass-panel rounded-xl p-4 mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div className="flex items-center gap-3">
+                        <div className={`w-3 h-3 rounded-full ${forceOrgColor} shadow-[0_0_10px_rgba(255,255,255,0.5)]`}></div>
+                        <span className="text-white font-medium tracking-wide">{forceOrgMessage}</span>
+                    </div>
+                    <div className="text-slate-400 text-sm">
+                        {fullWarband.length} Members
+                    </div>
+                </div>
+            )}
 
-        <div className={`grid gap-5 p-8 text-xl font-bold border-black 
-                   grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3`}>
-
-          {fullWarband.length === 0 ? (
-            <div className="flex flex-col items-center justify-center text-center col-span-full">
-              <h1>Frostgrave Warband Manager</h1>
-              <p>Press the + button to create members</p>
+            {/* Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {fullWarband.map((member, index) => (
+                    <MemberCard 
+                        key={index} 
+                        member={member} 
+                        onClick={() => handleCardClick(member)} 
+                    />
+                ))}
+                
+                {/* Add Button */}
+                <button
+                    onClick={goToCreatePage}
+                    className="glass-panel rounded-xl flex flex-col items-center justify-center min-h-[300px] hover:bg-white/5 transition-all duration-300 group border-dashed border-2 border-white/20 hover:border-[var(--accent-color)]"
+                >
+                    <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 group-hover:bg-[var(--accent-color)] group-hover:text-black">
+                        <span className="text-4xl font-light text-white group-hover:text-black">+</span>
+                    </div>
+                    <span className="text-slate-400 font-medium group-hover:text-white transition-colors">Add Member</span>
+                </button>
             </div>
-          ) : (
-            fullWarband.map((member, index) => (
-              <MemberCard
-                isOpen={true}
-                key={member.name || index}
-                member={member}
-                onClick={() => handleCardClick(member)}
-              />
-            ))
-          )}
 
-          <button
-            onClick={goToCreatePage}
-            className="bg-blue-300 rounded-2xl h-8 w-8 items-center justify-center mb-10 flex hover:opacity-80 hover:cursor-pointer col-span-1 sm:col-span-1"
-          >
-            <p className="align-middle text-lg transition-transform duration-200 hover:scale-105">+</p>
-          </button>
+            {/* Empty State */}
+            {fullWarband.length === 0 && (
+                <div className="text-center py-20">
+                    <h2 className="text-3xl font-bold text-white mb-4">Your Warband is Empty</h2>
+                    <p className="text-slate-400 mb-8">Start by adding a Wizard to lead your warband into the frozen city.</p>
+                </div>
+            )}
 
-          {isModCardVisible && selectedMember && (
-            <ModifyModal
-              member={selectedMember}
-              onClick={closeModal}
-              isOpen={isModCardVisible}
-            />
-          )}
+            {isOpen && selectedMember && (
+                <ModifyModal 
+                    member={selectedMember} 
+                    onClick={closeModal}
+                    isOpen={isOpen}
+                />
+            )}
         </div>
-      </main>
-
-
-    </>
+    </main>
   );
 }
 

@@ -1,13 +1,11 @@
 'use client'
 
-import React, { ChangeEvent, FormEvent, useContext, useEffect } from 'react'
-import Gamecodex from "../assets/Codex.json";
-import { useState } from 'react';
-import { Member, MemberProp, Soldier, Wizard } from "../models/models"
-import { MyContext } from '../context/Context';
-import { error } from 'console';
+import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react'
+import Gamecodex from "@/assets/Codex.json";
+import { Member, MemberProp, Soldier, Wizard } from "@/models/models"
+import { MyContext } from '@/context/Context';
 import { useRouter } from 'next/navigation';
-import NameCodex from "../assets/names.json"
+import NameCodex from "@/assets/names.json"
 
 const page = () => {
     const router = useRouter();
@@ -41,15 +39,9 @@ const page = () => {
             cost: s.cost
         }));
 
-        const wizard = fullWarband.find(member => member.role === "Wizard") as Wizard | null;
-
-        if (!wizard) {
-            return
-        }
-
         setSoldierCodexList(convertedSoldiers);
 
-    }, [fullWarband])
+    }, [])
 
     useEffect(() => {
         if (!fullWarband || fullWarband.length === 0) return;
@@ -145,99 +137,164 @@ const page = () => {
     }
 
     return (
-        <main className="flex min-h-screen mt-5 p-4 gap-2">
-            <form className=" p-6 rounded-xl flex flex-col  w-full max-w-xl space-y-4"
+        <main className="min-h-screen w-full pb-20 px-4 flex flex-col items-center">
+            <form className="glass-panel p-6 rounded-xl flex flex-col w-full max-w-4xl space-y-6 mt-8"
                 onSubmit={handleSubmit}
             >
-                <section className=''>
-                    <h3>Gold: {wizardGold.toString()}</h3>
-                </section>
-                <div>
-                    <select
-                        name="soldier"
-                        className="w-full xl:max-w-1/2 border rounded px-3 py-2 block"
-                        required
-                        onChange={(e) => handleSelectSoldier(e)}
-                    >
-                        {!selectedSoldier ? <option value="">Select Soldier</option> : null}
-
-                        {soldierCodexList?.length !== 0 ?
-                            soldierCodexList?.map((soldier) => (
-                                <option key={soldier.role} value={JSON.stringify(soldier)}>{soldier.role} {soldier.cost}g</option>
-                            )) : null
-                        }
-                    </select>
-                </div>
-                {selectedSoldier ? (<div className='flex flex-col gap-6'>
-                    <section className='flex flex-row gap-6  '>
-                        <p className='text-center'><span className='font-bold'>Move</span> {selectedSoldier?.move}</p>
-                        <p className='text-center'><span className='font-bold'>Fight</span> {selectedSoldier?.fight}</p>
-                        <p className='text-center'><span className='font-bold'>Shoot </span>{selectedSoldier?.shoot}</p>
-                        <p className='text-center'><span className='font-bold'>Armour</span> {selectedSoldier?.armour}</p>
-                        <p className='text-center'><span className='font-bold'>Health</span> {selectedSoldier?.health}</p>
-                    </section>
-                    <section className='flex flex-col'>
-                        <div className='flex flex-row'>
-                            <h3 className='font-bold mr-2'>Gear:</h3>
-                            <p> {selectedSoldier?.items}</p>
-                        </div>
-                        <div className=' flex flex-row'>
-                            <h3 className='font-bold mr-2'>Cost:</h3>
-                            <p> {selectedSoldier?.cost}g</p>
-                        </div>
-                        <div className=' flex flex-row'>
-                            <h3 className='font-bold mr-2'>Type:</h3>
-                            <p> {selectedSoldier?.type}</p>
-                        </div>
-                    </section>
-                    <input
-                        className="w-full border rounded px-3 py-2 max-w-xs"
-                        type="text"
-                        placeholder='Enter Soldier Name'
-                        name='soldierName'
-                        value={selectedSoldier?.name ?? ''}
-                        onChange={(e) => setSelectedSoldier((prev) => prev ? ({ ...prev, name: e.target.value }) : null)}
-                        required />
-                </div>) : null}
-                <div className='flex gap-2 flex-col w-full justify-center align-middle'>
-                    <button type="submit" className=" bg-black text-white py-2 rounded xl:max-w-1/2 hover:bg-gray-800">Add Soldier</button>
-                    {/* <button onClick={handleReturn} className="w-2/3 bg-black text-white py-2 m-auto rounded hover:bg-gray-800">Return</button> */}
-                </div>
-                {fullWarband.length !== 0 && (
-                    <div className='w-screen'>
-                        <h3 className='font-bold text-lg mb-2'>Warband: {fullWarband.length}</h3>
-                        <ul className="grid gap-4 
-                                        grid-cols-1 
-                                        sm:grid-cols-2 
-                                        md:grid-cols-3 
-                                        lg:grid-cols-4 
-                                        list-none">
-                            {fullWarband.map((member) => (
-                                <li
-                                    key={member.name}
-                                    className="border max-w-4/5 rounded-md p-3 shadow-sm hover:shadow-md transition-shadow duration-300 bg-white"
-                                >
-                                    <div className="flex gap-2 items-center mb-1">
-                                        <h4 className="font-semibold text-base">{member.name}  |</h4>
-                                        <span className="text-sm italic text-gray-500"> {member.role}</span>
-                                    </div>
-
-                                    {'move' in member && (
-                                        <div className="flex gap-2 text-sm text-gray-700">
-                                            <span>Move: {member.move}</span>
-                                            <span>Fight: {member.fight}</span>
-                                            <span>Shoot: {member.shoot}</span>
-                                            <span>Armour: {member.armour}</span>
-                                            <span>Health: {member.health}</span>
-                                        </div>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                    <h2 className="text-2xl font-bold text-white">Recruit Soldier</h2>
+                    <div className="flex items-center gap-2">
+                        <span className="text-slate-400">Treasury:</span>
+                        <span className="text-xl font-bold text-yellow-400">{wizardGold} gc</span>
                     </div>
-                )}
+                </div>
+
+                <div className="flex flex-col md:flex-row gap-6">
+                    <div className="w-full md:w-1/2">
+                        <label className="block text-slate-300 mb-2 text-sm font-semibold uppercase tracking-wider">Select Class</label>
+                        <select
+                            name="soldier"
+                            className="w-full bg-black/30 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--accent-color)] transition-colors"
+                            required
+                            onChange={(e) => handleSelectSoldier(e)}
+                        >
+                            {!selectedSoldier ? <option value="" className="text-black">Select Soldier Type</option> : null}
+
+                            {soldierCodexList?.length !== 0 ?
+                                soldierCodexList?.map((soldier) => (
+                                    <option key={soldier.role} value={JSON.stringify(soldier)} className="text-black">
+                                        {soldier.role} ({soldier.cost} gc)
+                                    </option>
+                                )) : <option value="" className="text-black">No soldiers available</option>
+                            }
+                        </select>
+
+                        {selectedSoldier && (
+                            <div className="mt-4">
+                                <label className="block text-slate-300 mb-2 text-sm font-semibold uppercase tracking-wider">Soldier Name</label>
+                                <input
+                                    className="w-full bg-black/30 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[var(--accent-color)] transition-colors"
+                                    type="text"
+                                    placeholder='Enter Name'
+                                    name='soldierName'
+                                    value={selectedSoldier?.name ?? ''}
+                                    onChange={(e) => setSelectedSoldier((prev) => prev ? ({ ...prev, name: e.target.value }) : null)}
+                                    required 
+                                />
+                            </div>
+                        )}
+                    </div>
+
+                    {selectedSoldier && (
+                        <div className="w-full md:w-1/2 bg-white/5 rounded-xl p-4 border border-white/10">
+                            <h3 className="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">{selectedSoldier.role}</h3>
+                            
+                            <div className="grid grid-cols-5 gap-2 mb-4">
+                                <div className="text-center bg-black/20 rounded p-2">
+                                    <div className="text-xs text-slate-400 uppercase">Move</div>
+                                    <div className="font-bold text-white">{selectedSoldier.move}</div>
+                                </div>
+                                <div className="text-center bg-black/20 rounded p-2">
+                                    <div className="text-xs text-slate-400 uppercase">Fight</div>
+                                    <div className="font-bold text-white">{selectedSoldier.fight}</div>
+                                </div>
+                                <div className="text-center bg-black/20 rounded p-2">
+                                    <div className="text-xs text-slate-400 uppercase">Shoot</div>
+                                    <div className="font-bold text-white">{selectedSoldier.shoot}</div>
+                                </div>
+                                <div className="text-center bg-black/20 rounded p-2">
+                                    <div className="text-xs text-slate-400 uppercase">Armor</div>
+                                    <div className="font-bold text-white">{selectedSoldier.armour}</div>
+                                </div>
+                                <div className="text-center bg-black/20 rounded p-2">
+                                    <div className="text-xs text-slate-400 uppercase">Will</div>
+                                    <div className="font-bold text-white">{selectedSoldier.will}</div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-2 text-sm">
+                                <div className="flex justify-between border-b border-white/5 pb-1">
+                                    <span className="text-slate-400">Health</span>
+                                    <span className="text-white font-bold">{selectedSoldier.health}</span>
+                                </div>
+                                <div className="flex justify-between border-b border-white/5 pb-1">
+                                    <span className="text-slate-400">Cost</span>
+                                    <span className="text-[var(--accent-color)] font-bold">{selectedSoldier.cost} gc</span>
+                                </div>
+                                <div className="flex justify-between border-b border-white/5 pb-1">
+                                    <span className="text-slate-400">Type</span>
+                                    <span className="text-white">{selectedSoldier.type}</span>
+                                </div>
+                                <div>
+                                    <span className="text-slate-400 block mb-1">Gear</span>
+                                    <span className="text-slate-200 italic">{selectedSoldier.items}</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                <div className='flex gap-4 justify-end pt-4 border-t border-white/10'>
+                    <button 
+                        type="button" 
+                        onClick={() => router.back()}
+                        className="px-6 py-2 rounded-lg border border-white/10 text-white hover:bg-white/10 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        type="submit" 
+                        disabled={!selectedSoldier}
+                        className="px-6 py-2 rounded-lg bg-[var(--accent-color)] text-slate-900 font-bold hover:bg-[var(--accent-hover)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-[var(--accent-color)]/20"
+                    >
+                        Recruit Soldier
+                    </button>
+                </div>
             </form>
+
+            {fullWarband.length !== 0 && (
+                <div className='w-full max-w-6xl mt-8'>
+                    <h3 className='font-bold text-xl text-white mb-4 pl-2 border-l-4 border-[var(--accent-color)]'>Current Warband ({fullWarband.length})</h3>
+                    <ul className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {fullWarband.map((member, idx) => (
+                            <li
+                                key={idx}
+                                className="glass-panel p-4 rounded-xl border border-white/5 hover:border-[var(--accent-color)]/50 transition-colors"
+                            >
+                                <div className="flex justify-between items-start mb-2">
+                                    <h4 className="font-bold text-white text-lg">{member.name}</h4>
+                                    <span className="text-xs font-semibold bg-white/10 px-2 py-0.5 rounded text-[var(--accent-color)]">{member.role}</span>
+                                </div>
+
+                                {'move' in member && (
+                                    <div className="grid grid-cols-5 gap-1 text-center mt-3">
+                                        <div className="bg-black/20 rounded p-1">
+                                            <div className="text-[10px] text-slate-400">M</div>
+                                            <div className="text-xs font-bold text-white">{member.move}</div>
+                                        </div>
+                                        <div className="bg-black/20 rounded p-1">
+                                            <div className="text-[10px] text-slate-400">F</div>
+                                            <div className="text-xs font-bold text-white">{member.fight}</div>
+                                        </div>
+                                        <div className="bg-black/20 rounded p-1">
+                                            <div className="text-[10px] text-slate-400">S</div>
+                                            <div className="text-xs font-bold text-white">{member.shoot}</div>
+                                        </div>
+                                        <div className="bg-black/20 rounded p-1">
+                                            <div className="text-[10px] text-slate-400">A</div>
+                                            <div className="text-xs font-bold text-white">{member.armour}</div>
+                                        </div>
+                                        <div className="bg-black/20 rounded p-1">
+                                            <div className="text-[10px] text-slate-400">H</div>
+                                            <div className="text-xs font-bold text-white">{member.health}</div>
+                                        </div>
+                                    </div>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </main>
     )
 }

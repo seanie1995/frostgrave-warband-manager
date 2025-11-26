@@ -1,6 +1,6 @@
 "use client"
 import React, { createContext, useState, ReactNode, useEffect } from 'react';
-import { Member, Wizard } from '../models/models';
+import { Member, Wizard } from '@/models/models';
 // Define the type for the context state
 type MyContextType = {
     state: string | null;

@@ -69,7 +69,7 @@ export interface School {
 export interface MemberProp {
     member: Member;
     onClick: () => void
-    isOpen: boolean
+    isOpen?: boolean
 }
 
 export interface SpellProp {

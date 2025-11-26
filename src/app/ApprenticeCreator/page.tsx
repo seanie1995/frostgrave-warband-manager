@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, FormEvent, useContext } from 'react';
-import { MyContext } from '../context/Context';
-import { Wizard, Apprentice, MemberOrMembers } from "../models/models";
+import { MyContext } from '@/context/Context';
+import { Wizard, Apprentice, MemberOrMembers } from "@/models/models";
 import { useRouter } from "next/navigation";
 
 const ApprenticeCreator = () => {

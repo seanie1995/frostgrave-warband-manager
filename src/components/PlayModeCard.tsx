@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MemberProp, Wizard, Apprentice } from '../models/models'
+import { MemberProp, Wizard, Apprentice } from '@/models/models'
 
 const PlayModeCard: React.FC<MemberProp> = ({ member, onClick }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -81,17 +81,15 @@ const PlayModeCard: React.FC<MemberProp> = ({ member, onClick }) => {
 
             {/* Dropdown content */}
             {isDropdownOpen && (
-                <div className="bg-gray-100 rounded-b-xl p-4 mt-1 max-w-md mx-auto shadow-md">
-
-
+                <div className="glass-panel rounded-b-xl p-4 mt-1 max-w-md mx-auto shadow-md">
                     <div className="mb-4">
-                        <h3 className="font-semibold text-sm">Items:</h3>
-                        <p className="whitespace-pre-wrap text-sm">{member.items || "-"}</p>
+                        <h3 className="font-semibold text-sm text-slate-300">Items:</h3>
+                        <p className="whitespace-pre-wrap text-sm text-white">{member.items || "-"}</p>
                     </div>
 
                     <div>
-                        <h3 className="font-semibold text-sm">Notes:</h3>
-                        <p className="whitespace-pre-wrap text-sm">{member.notes || "-"}</p>
+                        <h3 className="font-semibold text-sm text-slate-300">Notes:</h3>
+                        <p className="whitespace-pre-wrap text-sm text-white">{member.notes || "-"}</p>
                     </div>
                 </div>
             )}

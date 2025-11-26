@@ -2,17 +2,53 @@
 
 /* global.css */
 :root {
-    --background-color: #eaf3fc;
-    /* very light, icy blue */
-    --foreground-color: #171717;
-    /* keep dark text for contrast */
+    /* Frostgrave Winter Theme */
+    --background-start: #0f172a; /* Slate 900 */
+    --background-end: #1e293b;   /* Slate 800 */
+    
+    --glass-bg: rgba(30, 41, 59, 0.7); /* Dark semi-transparent blue */
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    --text-primary: #f1f5f9; /* Slate 100 */
+    --text-secondary: #94a3b8; /* Slate 400 */
+    
+    --accent-color: #38bdf8; /* Sky 400 - Ice Blue */
+    --accent-hover: #0ea5e9; /* Sky 500 */
 }
 
 body {
-    background-color: var(--background-color);
-    color: var(--foreground-color);
+    background: linear-gradient(135deg, var(--background-start), var(--background-end));
+    color: var(--text-primary);
     font-family: 'Inter', sans-serif;
-    /* optional: clean modern font */
+    min-height: 100vh;
     margin: 0;
     padding: 0;
+}
+
+/* Glassmorphism Utility Class */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1); 
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color); 
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover); 
 }

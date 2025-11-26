@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useContext, useEffect, useState } from 'react'
-import { MyContext } from '../context/Context'
-import { Member, Wizard, Spell } from '../models/models'
-import Gamecodex from '../assets/Codex.json'
+import { MyContext } from '@/context/Context'
+import { Member, Wizard, Spell } from '@/models/models'
+import Gamecodex from '@/assets/Codex.json'
 
 const AllSpells = () => {
     const context = useContext(MyContext)
@@ -27,34 +27,65 @@ const AllSpells = () => {
     }, [])
 
     return (
-        <div className="min-h-screen w-screen mt-20  p-4">
-            <p className='font-bold'>Select a Spell</p>
-            <select
-                name="chosenSpell"
-                value={chosenSpell ? JSON.stringify(chosenSpell) : ""}
-                onChange={e => setChosenSpell(JSON.parse(e.target.value))}
-                className='border border-black p-1 mt-2 rounded'
-            >
-                {spellList ?
-                    spellList.map(s =>
-                        <option value={JSON.stringify(s)} key={s.name} >
-                            {s.name} - {s.schoolName}
-                        </option>) : null}
-            </select>
-            {chosenSpell ? <div className="bg-white max-w-screen mt-2 w-full p-6 rounded-2xl shadow-xl border border-gray-200">
-                <div className="flex flex-col gap-2 text-gray-800">
-                    <h2 className="text-2xl font-bold">{chosenSpell.name}</h2>
-                    <p className="text-sm text-gray-500">
-                        Target Number: <span className="font-medium">{chosenSpell.targetNumber}</span> /{" "}
-                        <span className="font-medium">{chosenSpell.targetNumber + 2}</span>
-
-                    </p>
-                    <p className='text-sm text-gray-500'>Type: {chosenSpell.type}</p>
-                    <p className="text-gray-700 whitespace-pre-line leading-relaxed">{chosenSpell.description}</p>
-
+        <main className="min-h-screen w-full pb-20 px-4 flex flex-col items-center">
+            <div className="glass-panel p-6 rounded-xl w-full max-w-4xl mt-8 space-y-6">
+                <div className="border-b border-white/10 pb-4">
+                    <h1 className="text-3xl font-bold text-white text-center">Spell Compendium</h1>
+                    <p className="text-slate-400 text-center mt-2">Browse all available spells</p>
                 </div>
-            </div> : null}
-        </div>
+
+                <div className="space-y-3">
+                    <label className="block text-slate-300 text-sm font-semibold uppercase tracking-wider">
+                        Select a Spell
+                    </label>
+                    <select
+                        name="chosenSpell"
+                        value={chosenSpell ? JSON.stringify(chosenSpell) : ""}
+                        onChange={e => setChosenSpell(JSON.parse(e.target.value))}
+                        className="w-full bg-black/30 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[var(--accent-color)] transition-colors"
+                    >
+                        <option value="" className="text-black">-- Choose a Spell --</option>
+                        {spellList ?
+                            spellList.map(s =>
+                                <option value={JSON.stringify(s)} key={s.name} className="text-black">
+                                    {s.name} - {s.schoolName}
+                                </option>) : null}
+                    </select>
+                </div>
+
+                {chosenSpell && (
+                    <div className="bg-white/5 rounded-xl p-6 border border-white/10 space-y-4 animate-fadeIn">
+                        <div className="flex justify-between items-start border-b border-white/10 pb-3">
+                            <h2 className="text-2xl font-bold text-white">{chosenSpell.name}</h2>
+                            <span className="text-xs font-semibold bg-[var(--accent-color)]/20 text-[var(--accent-color)] px-3 py-1 rounded-full">
+                                {chosenSpell.schoolName}
+                            </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="bg-black/20 rounded-lg p-3 border border-white/5">
+                                <div className="text-xs text-slate-400 uppercase tracking-wider mb-1">Target Number</div>
+                                <div className="text-2xl font-bold text-[var(--accent-color)]">
+                                    {chosenSpell.targetNumber} <span className="text-slate-400 text-lg">/ {chosenSpell.targetNumber + 2}</span>
+                                </div>
+                            </div>
+
+                            <div className="bg-black/20 rounded-lg p-3 border border-white/5">
+                                <div className="text-xs text-slate-400 uppercase tracking-wider mb-1">Spell Type</div>
+                                <div className="text-lg font-semibold text-white">{chosenSpell.type}</div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <div className="text-xs text-slate-400 uppercase tracking-wider">Description</div>
+                            <p className="text-slate-200 leading-relaxed whitespace-pre-line">
+                                {chosenSpell.description}
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </main>
     )
 }
 

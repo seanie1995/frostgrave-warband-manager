@@ -2,8 +2,8 @@
 import React, { useContext, useEffect } from 'react'
 import { useRouter } from "next/navigation";
 
-import { MyContext } from '../context/Context';
-import { Member } from '../models/models';
+import { MyContext } from '@/context/Context';
+import { Member } from '@/models/models';
 
 const warbandBuilder = () => {
 

@@ -1,10 +1,10 @@
 'use client'
 import React, { useState, useEffect, ChangeEvent, FormEvent, useContext } from 'react';
-import { MyContext } from '../context/Context';
-import Gamecodex from "../assets/Codex.json";
-import { Wizard, Spell, Apprentice, Member, MemberOrMembers } from "../models/models";
+import { MyContext } from '@/context/Context';
+import Gamecodex from "@/assets/Codex.json";
+import { Wizard, Spell, Apprentice, Member, MemberOrMembers } from "@/models/models";
 import { useRouter } from "next/navigation";
-import SpellCard from "../components/spellCard"
+import SpellCard from "@/components/SpellCard"
 
 const Page = () => {
     const context = useContext(MyContext);
@@ -230,237 +230,152 @@ const Page = () => {
 
 
     return (
-        <main className="min-h-screen w-screen bg-gray-50">
+        <main className="min-h-screen w-full pb-20 px-4">
             <form
-                className="flex flex-col justify-center bg-white p-6 rounded-xl shadow-md w-screen space-y-4"
+                className="flex flex-col justify-center glass-panel p-6 rounded-xl shadow-md w-full max-w-4xl mx-auto space-y-6"
                 onSubmit={handleSubmit}
             >
-                <h1 className="text-2xl font-bold">Create Your Wizard</h1>
-                <input
-                    type="text"
-                    name="wizardName"
-                    placeholder="Wizard Name"
-                    className="w-1/2 border rounded px-3 py-2 mr-2"
-                    required
-                    onChange={(e) =>
-                        setWizard((prev) => ({ ...prev, name: e.target.value }))
-                    }
-                    value={wizard.name}
-                />
-                <select
-                    name="school"
-                    className="w-full max-w-xs border rounded px-3 py-2 "
-                    required
-                    onChange={handleSchoolChange}
-                    value={chosenSchool}
-                >
-                    {!chosenSchool ? <option value="">Choose School</option> : null}
+                <h1 className="text-3xl font-bold text-white text-center mb-4">Create Your Wizard</h1>
+                
+                <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                    <input
+                        type="text"
+                        name="wizardName"
+                        placeholder="Wizard Name"
+                        className="w-full md:w-1/2 bg-black/30 border border-white/20 rounded px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-[var(--accent-color)]"
+                        required
+                        onChange={(e) =>
+                            setWizard((prev) => ({ ...prev, name: e.target.value }))
+                        }
+                        value={wizard.name}
+                    />
+                    <select
+                        name="school"
+                        className="w-full md:w-1/2 bg-black/30 border border-white/20 rounded px-4 py-2 text-white focus:outline-none focus:border-[var(--accent-color)]"
+                        required
+                        onChange={handleSchoolChange}
+                        value={chosenSchool}
+                    >
+                        {!chosenSchool ? <option value="" className="text-black">Choose School</option> : null}
 
-                    <option value="Chronomancer">Chronomancer</option>
-                    <option value="Elementalist">Elementalist</option>
-                    <option value="Enchanter">Enchanter</option>
-                    <option value="Illusionist">Illusionist</option>
-                    <option value="Necromancer">Necromancer</option>
-                    <option value="Sigilist">Sigilist</option>
-                    <option value="Soothsayer">Soothsayer</option>
-                    <option value="Summoner">Summoner</option>
-                    <option value="Thaumaturge">Thaumaturge</option>
-                    <option value="Witch">Witch</option>
-                </select>
+                        {schools.map(s => (
+                            <option key={s.id} value={s.name} className="text-black">{s.name}</option>
+                        ))}
+                    </select>
+                </div>
 
-                <div className='flex flex-col gap-2'>
-                    <label className="block font-semibold mb-1">School Spells</label>
+                <div className='flex flex-col gap-4'>
+                    <label className="block font-semibold text-[var(--accent-color)] text-lg border-b border-white/10 pb-2">School Spells</label>
 
-                    <div className='flex gap-2 xl:flex-row flex-col'>
-                        <div className='flex xl:flex-row flex-row'>
-                            <select
-                                name="schoolSpell"
-                                className="w-xl max-w-xs border rounded px-3 py-2"
-                                required
-                                onChange={(e) => handleSpellSelect(e, 0)}
-                            >
-                                <option value="">-</option>
-                                {schoolSpells.map((spell) => (
-                                    <option key={spell.name} value={JSON.stringify(spell)}>
-                                        {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
-                                    </option>
-                                ))}
-                            </select>
-                            <button onClick={() => toggleSpellInfo(0)} type='button' className="border-2 flex items-center justify-center ml-2 px-3 py-1 rounded"><p>?</p></button>
-                        </div>
-
-                        <div className='flex flex-row'>
-                            <select
-                                name="schoolSpell"
-                                className="w-xl max-w-xs border rounded px-3 py-2"
-                                required
-                                onChange={(e) => handleSpellSelect(e, 1)}
-                            >
-                                <option value="">-</option>
-                                {schoolSpells.map((spell) => (
-                                    <option key={spell.name} value={JSON.stringify(spell)}>
-                                        {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
-                                    </option>
-                                ))}
-                            </select>
-                            <button onClick={() => toggleSpellInfo(1)} type='button' className="border-2 flex items-center justify-center ml-2 px-3 py-1 rounded"><p>?</p></button>
-                        </div>
-                        <div className='flex flex-row'>
-                            <select
-                                name="schoolSpell"
-                                className="w-xl max-w-xs border rounded px-3 py-2"
-                                required
-                                onChange={(e) => handleSpellSelect(e, 2)}
-                            >
-                                <option value="">-</option>
-                                {schoolSpells.map((spell) => (
-                                    <option key={spell.name} value={JSON.stringify(spell)}>
-                                        {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
-                                    </option>
-                                ))}
-                            </select>
-                            <button onClick={() => toggleSpellInfo(2)} type='button' className="border-2 flex items-center justify-center ml-2 px-3 py-1 rounded"><p>?</p></button>
-                        </div>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                        {[0, 1, 2].map((index) => (
+                            <div key={index} className='flex items-center gap-2'>
+                                <select
+                                    name="schoolSpell"
+                                    className="w-full bg-black/30 border border-white/20 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[var(--accent-color)]"
+                                    required
+                                    onChange={(e) => handleSpellSelect(e, index)}
+                                >
+                                    <option value="" className="text-black">- Select Spell -</option>
+                                    {schoolSpells.map((spell) => (
+                                        <option key={spell.name} value={JSON.stringify(spell)} className="text-black">
+                                            {spell.name} (TN: {spell.targetNumber})
+                                        </option>
+                                    ))}
+                                </select>
+                                <button onClick={() => toggleSpellInfo(index)} type='button' className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10 hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">?</button>
+                            </div>
+                        ))}
                     </div>
 
                     {/* ALIGNED SPELLS */}
+                    <label className="block font-semibold text-[var(--accent-color)] text-lg border-b border-white/10 pb-2 mt-4">Aligned Spells</label>
 
-                    <label className="block font-semibold mb-1 ">Aligned Spells</label>
-
-                    <div className=' flex gap-2 xl:flex-row flex-col'>
-                        <div className='flex xl:flex-row  flex-col gap-2'>
-                            <div className='flex flex-row'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                        {[
+                            { spells: alignedSpells1, schoolName: schoolNames[0], index: 3 },
+                            { spells: alignedSpells2, schoolName: schoolNames[1], index: 4 },
+                            { spells: alignedSpells3, schoolName: schoolNames[2], index: 5 }
+                        ].map((group) => (
+                            <div key={group.index} className='flex items-center gap-2'>
                                 <select
-                                    name="aligned1"
-                                    className="w-xl max-w-xs border rounded px-3 py-2"
+                                    name={`aligned${group.index}`}
+                                    className="w-full bg-black/30 border border-white/20 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[var(--accent-color)]"
                                     required
-                                    onChange={(e) => handleSpellSelect(e, 3)}
+                                    onChange={(e) => handleSpellSelect(e, group.index)}
                                 >
-                                    <option value="">- {schoolNames[0]} -</option>
-                                    {alignedSpells1.map((spell) => (
-                                        <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
-                                        </option>
-
-                                    ))}
-
-                                </select>
-                                <button onClick={() => toggleSpellInfo(3)} type='button' className="border-2 flex items-center justify-center ml-2 px-3 py-1 rounded"><p>?</p></button>
-                            </div>
-
-                            <div className='flex flex-row'>
-                                <select
-                                    name="aligned2"
-                                    className="w-xl max-w-xs border rounded px-3 py-2"
-                                    required
-                                    onChange={(e) => handleSpellSelect(e, 4)}
-                                >
-                                    <option value="">- {schoolNames[1]} -</option>
-                                    {alignedSpells2.map((spell) => (
-                                        <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
+                                    <option value="" className="text-black">- {group.schoolName || 'Aligned'} -</option>
+                                    {group.spells.map((spell) => (
+                                        <option key={spell.name} value={JSON.stringify(spell)} className="text-black">
+                                            {spell.name} (TN: {spell.targetNumber})
                                         </option>
                                     ))}
                                 </select>
-                                <button onClick={() => toggleSpellInfo(4)} type='button' className="border-2 flex items-center justify-center ml-2 px-3 py-1 rounded"><p>?</p></button>
+                                <button onClick={() => toggleSpellInfo(group.index)} type='button' className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10 hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">?</button>
                             </div>
-
-                            <div className='flex flex-row'>
-                                <select
-                                    name="aligned3"
-                                    className="w-xl max-w-xs border rounded px-3 py-2"
-                                    required
-                                    onChange={(e) => handleSpellSelect(e, 5)}
-                                >
-                                    <option value="">- {schoolNames[2]} -</option>
-                                    {alignedSpells3.map((spell) => (
-                                        <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
-                                        </option>
-                                    ))}
-                                </select>
-                                <button onClick={() => toggleSpellInfo(5)} type='button' className="border-2 flex items-center justify-center ml-2 px-3 py-1 rounded"><p>?</p></button>
-                            </div>
-                        </div></div>
+                        ))}
+                    </div>
 
                     {/* NEUTRAL SPELLS */}
-
-                    <label className="block font-semibold mb-1">Neutral Spells</label>
-                    <div className=' flex md:flex-row flex-col space-y-2'>
-                        <div className='flex xl:flex-row  flex-col gap-2'>
-                            <div className='flex flex-row'>
+                    <label className="block font-semibold text-[var(--accent-color)] text-lg border-b border-white/10 pb-2 mt-4">Neutral Spells</label>
+                    
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                        {[0, 1].map((i) => (
+                            <div key={i} className='flex items-center gap-2'>
                                 <select
-                                    name="neutral1"
-                                    className="w-xl max-w-xs border rounded px-3 py-2"
+                                    name={`neutral${i + 1}`}
+                                    className="w-full bg-black/30 border border-white/20 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[var(--accent-color)]"
                                     required
-                                    onChange={(e) => { handleSpellSelect(e, 6), handleNeutralChoice(e, 0) }}
+                                    onChange={(e) => { handleSpellSelect(e, 6 + i), handleNeutralChoice(e, i) }}
                                 >
-                                    <option value="">-</option>
+                                    <option value="" className="text-black">- Select Neutral Spell -</option>
                                     {neutralSpells.map((spell) => (
-                                        <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name} - {spell.schoolName} - {spell.targetNumber} | {spell.targetNumber + 2}
+                                        <option key={spell.name} value={JSON.stringify(spell)} className="text-black">
+                                            {spell.name} - {spell.schoolName} (TN: {spell.targetNumber})
                                         </option>
                                     ))}
                                 </select>
-                                <button onClick={() => toggleSpellInfo(6)} type='button' className="border-2 flex items-center justify-center ml-2 px-3 py-1 rounded"><p>?</p></button>
+                                <button onClick={() => toggleSpellInfo(6 + i)} type='button' className="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10 hover:border-[var(--accent-color)] hover:text-[var(--accent-color)] transition-all">?</button>
                             </div>
+                        ))}
+                    </div>
 
-                            <div className='flex flex-row'>
-                                <select
-                                    name="neutral2"
-                                    className="w-xl max-w-xs border rounded px-3 py-2"
-                                    required
-                                    onChange={(e) => { handleSpellSelect(e, 7), handleNeutralChoice(e, 1) }}
-                                >
-                                    <option value="">-</option>
-                                    {neutralSpells.map((spell) => (
-                                        <option key={spell.name} value={JSON.stringify(spell)}>
-                                            {spell.name} - {spell.schoolName} - {spell.targetNumber} | {spell.targetNumber + 2}
-                                        </option>
-                                    ))}
-                                </select>
-                                <button onClick={() => toggleSpellInfo(7)} type='button' className="border-2 flex items-center justify-center ml-2 px-3 py-1 rounded"><p>?</p></button>
-                            </div>
+                    <div className='flex items-center justify-center gap-3 mt-6 p-4 bg-white/5 rounded-lg border border-white/10'>
+                        <input type="checkbox" checked={hasApprentice ?? false} onChange={toggleHasApprentice} className='w-5 h-5 accent-[var(--accent-color)]'></input>
+                        <p className='text-white font-medium'>Recruit an Apprentice? (200gc)</p>
+                    </div>
 
+                    {hasApprentice && (
+                        <div className="flex justify-center">
+                            <input
+                                type="text"
+                                name="apprenticeName"
+                                placeholder="Apprentice Name"
+                                className="w-full max-w-xs bg-black/30 border border-white/20 rounded px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-[var(--accent-color)] text-center"
+                                required
+                                onChange={(e) =>
+                                    setApprentice((prev) => ({ ...prev, name: e.target.value }))
+                                }
+                            />
                         </div>
-
-                    </div>
-                    <div className='flex flex-row m-2'>
-                        <input type="checkbox" checked={hasApprentice ?? false} onChange={toggleHasApprentice} className='mr-3'></input>
-                        <p className='text-center'>Make an Apprentice?</p>
-                    </div>
-
-                    {!hasApprentice ? null :
-                        <input
-                            type="text"
-                            name="apprenticeName"
-                            placeholder="Apprentice Name"
-                            className="w-full border rounded px-3 py-2 max-w-xs  block"
-                            required
-                            onChange={(e) =>
-                                setApprentice((prev) => ({ ...prev, name: e.target.value }))
-                            }
-                        />
-                    }
+                    )}
 
                 </div>
-                <div className='flex space-x-2'>
+                <div className='flex gap-4 justify-center pt-6'>
                     <button
                         type="submit"
-                        className="w-sm bg-black sm:max-w-1/12 text-white py-2 rounded hover:bg-gray-800"
+                        className="px-8 py-3 bg-[var(--accent-color)] text-slate-900 font-bold rounded-lg hover:bg-[var(--accent-hover)] transition-colors shadow-lg shadow-[var(--accent-color)]/20"
                     >
                         Save Wizard
                     </button>
                     <button
                         type="button"
-                        className="w-sm bg-red-600 sm:max-w-1/12 sm:not-[]:max-w-1/12 text-white py-2 rounded hover:bg-gray-800"
-                        onClick={() => {
-                            // You can add cancel logic here
-                            console.log("Cancelled");
-                        }}
+                        className="px-8 py-3 bg-red-500/80 text-white font-bold rounded-lg hover:bg-red-600 transition-colors border border-red-400/30"
+                        onClick={() => router.push('/')}
                     >
                         Cancel
-                    </button></div>
+                    </button>
+                </div>
 
             </form>
             {isSpellModalOpen && spellToShow ? <SpellCard spell={spellToShow} onClick={() => setSpellModalIsOpen(false)} /> : null}

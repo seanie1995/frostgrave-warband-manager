@@ -1,5 +1,5 @@
 import React from 'react'
-import { SpellProp } from '../models/models'
+import { SpellProp } from '@/models/models'
 
 const SpellCard: React.FC<SpellProp> = ({ spell, onClick }) => {
     return (

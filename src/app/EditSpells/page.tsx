@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useContext, useEffect, useState } from 'react'
-import { MyContext } from '../context/Context'
-import { Spell, Wizard } from '../models/models'
+import { MyContext } from '@/context/Context'
+import { Spell, Wizard } from '@/models/models'
 
 const EditSpells = () => {
     const context = useContext(MyContext)

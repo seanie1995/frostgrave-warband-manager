@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useContext, useEffect, useState } from 'react'
-import { MyContext } from '../context/Context'
-import { Member, Wizard, Spell } from '../models/models'
+import { MyContext } from '@/context/Context'
+import { Member, Wizard, Spell } from '@/models/models'
 
 const YourSpells = () => {
     const context = useContext(MyContext)
@@ -33,20 +33,17 @@ const YourSpells = () => {
         }))
     }
 
-    useEffect(() => {
-
-    })
-
     return (
-        <main className="flex justify-center min-h-screen w-screen m-auto p-4">
-            <div>
-                <ul className=" rounded-lg min-w-[350px] text-left space-y-2   justify-between">
+        <main className="flex justify-center min-h-screen w-full pb-20 px-4">
+            <div className="glass-panel p-6 rounded-xl w-full max-w-4xl mt-8">
+                <h1 className="text-3xl font-bold text-white text-center mb-6">Your Spells</h1>
+                <ul className="rounded-lg min-w-[350px] text-left space-y-2">
                     {spells?.map(spell => {
                         const isExpanded = !!expandedSpells[spell.name]
                         return (
                             <li
                                 key={spell.name}
-                                className="border rounded p-3 cursor-pointer  select-none"
+                                className="bg-white/5 border border-white/10 rounded-lg p-3 cursor-pointer select-none hover:bg-white/10 transition-colors"
                                 onClick={() => toggleSpell(spell.name)}
                                 aria-expanded={isExpanded}
                                 aria-controls={`spell-details-${spell.name}`}
@@ -60,10 +57,10 @@ const YourSpells = () => {
                                 }}
                             >
                                 <div className="flex justify-between items-center">
-                                    <span className="text-m font-semibold">
-                                        {spell.name} - {spell.targetNumber} | {spell.targetNumber + 2}
+                                    <span className="text-lg font-semibold text-white">
+                                        {spell.name} - <span className="text-[var(--accent-color)]">{spell.targetNumber}</span> | <span className="text-slate-400">{spell.targetNumber + 2}</span>
                                     </span>
-                                    <span className="ml-4 px-2 py-1 bg-gray-500 text-white rounded select-none">
+                                    <span className="ml-4 px-3 py-1 bg-[var(--accent-color)]/20 text-[var(--accent-color)] rounded-full select-none text-sm font-bold">
                                         {isExpanded ? '−' : '+'}
                                     </span>
                                 </div>
@@ -71,10 +68,10 @@ const YourSpells = () => {
                                 {isExpanded && (
                                     <div
                                         id={`spell-details-${spell.name}`}
-                                        className="mt-2 text-gray-700 max-w-md"
+                                        className="mt-3 pt-3 border-t border-white/10"
                                     >
-                                        <p><strong>Type:</strong> {spell.type}</p>
-                                        <p className="mt-1">{spell.description}</p>
+                                        <p className="text-slate-300 mb-2"><strong className="text-white">Type:</strong> {spell.type}</p>
+                                        <p className="text-slate-300 leading-relaxed">{spell.description}</p>
                                     </div>
                                 )}
                             </li>
