@@ -9,7 +9,7 @@ const PlayModeCard: React.FC<MemberProp> = ({ member, onClick }) => {
   return (
     <div>
       <div
-        className="p-2 bg-gray-900 rounded-xl flex flex-col hover:opacity-80 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
+        className="p-2 bg-blue-900 rounded-xl flex flex-col hover:opacity-80 hover:cursor-pointer transition-transform duration-200 hover:scale-105"
         onClick={() => {
           onClick();
           toggleDropdown();
