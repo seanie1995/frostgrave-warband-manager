@@ -31,13 +31,13 @@ const WizardPage = () => {
     try {
       const foundSpells = found?.spells as Spell[];
       const selectableSpells = Gamecodex.spells.filter(
-        (s) => !foundSpells.some((existing) => existing.name === s.name)
+        (s) => !foundSpells.some((existing) => existing.name === s.name),
       );
 
       const updatedTargetNumberSpells = ModifyTargetNumbers(selectableSpells);
 
       const sortedSpells = updatedTargetNumberSpells.sort((a, b) =>
-        a.schoolName.localeCompare(b.schoolName)
+        a.schoolName.localeCompare(b.schoolName),
       );
 
       setChosenSpell(sortedSpells[0]);
@@ -110,7 +110,7 @@ const WizardPage = () => {
       }
 
       const updatedWarband = fullWarband.map((w) =>
-        w.name === updatedWizard?.name ? updatedWizard : w
+        w.name === updatedWizard?.name ? updatedWizard : w,
       );
 
       console.log(updatedWizard);
@@ -145,7 +145,7 @@ const WizardPage = () => {
           value={wizard?.name || ""}
           onChange={(e) =>
             setWizard((prev) =>
-              prev ? { ...prev, name: e.target.value } : null
+              prev ? { ...prev, name: e.target.value } : null,
             )
           }
         />
@@ -164,7 +164,7 @@ const WizardPage = () => {
                   className="bg-black/30 border border-white/20 rounded px-3 py-2 text-white focus:outline-none focus:border-[var(--accent-color)]"
                   onChange={(e) =>
                     setWizard((prev) =>
-                      prev ? { ...prev, level: Number(e.target.value) } : null
+                      prev ? { ...prev, level: Number(e.target.value) } : null,
                     )
                   }
                   value={wizard?.level || ""}
@@ -180,7 +180,7 @@ const WizardPage = () => {
                     setWizard((prev) =>
                       prev
                         ? { ...prev, experience: Number(e.target.value) }
-                        : null
+                        : null,
                     )
                   }
                   value={wizard?.experience || 0}
@@ -194,7 +194,7 @@ const WizardPage = () => {
                   className="bg-black/30 border border-white/20 rounded px-3 py-2 text-white focus:outline-none focus:border-[var(--accent-color)]"
                   onChange={(e) =>
                     setWizard((prev) =>
-                      prev ? { ...prev, gold: Number(e.target.value) } : null
+                      prev ? { ...prev, gold: Number(e.target.value) } : null,
                     )
                   }
                   value={wizard?.gold || "0"}
@@ -211,7 +211,7 @@ const WizardPage = () => {
                   required
                   onChange={(e) =>
                     setWizard((prev) =>
-                      prev ? { ...prev, move: Number(e.target.value) } : null
+                      prev ? { ...prev, move: Number(e.target.value) } : null,
                     )
                   }
                   value={wizard?.move || 0}
@@ -225,7 +225,7 @@ const WizardPage = () => {
                   required
                   onChange={(e) =>
                     setWizard((prev) =>
-                      prev ? { ...prev, fight: Number(e.target.value) } : null
+                      prev ? { ...prev, fight: Number(e.target.value) } : null,
                     )
                   }
                   value={wizard?.fight || 0}
@@ -239,7 +239,7 @@ const WizardPage = () => {
                   required
                   onChange={(e) =>
                     setWizard((prev) =>
-                      prev ? { ...prev, shoot: Number(e.target.value) } : null
+                      prev ? { ...prev, shoot: Number(e.target.value) } : null,
                     )
                   }
                   value={wizard?.shoot || 0}
@@ -253,7 +253,7 @@ const WizardPage = () => {
                   required
                   onChange={(e) =>
                     setWizard((prev) =>
-                      prev ? { ...prev, armour: Number(e.target.value) } : null
+                      prev ? { ...prev, armour: Number(e.target.value) } : null,
                     )
                   }
                   value={wizard?.armour || 0}
@@ -267,7 +267,7 @@ const WizardPage = () => {
                   required
                   onChange={(e) =>
                     setWizard((prev) =>
-                      prev ? { ...prev, will: Number(e.target.value) } : null
+                      prev ? { ...prev, will: Number(e.target.value) } : null,
                     )
                   }
                   value={wizard?.will || 0}
@@ -281,7 +281,7 @@ const WizardPage = () => {
                   required
                   onChange={(e) =>
                     setWizard((prev) =>
-                      prev ? { ...prev, health: Number(e.target.value) } : null
+                      prev ? { ...prev, health: Number(e.target.value) } : null,
                     )
                   }
                   value={wizard?.health || 0}
@@ -298,7 +298,7 @@ const WizardPage = () => {
                 className="bg-black/30 border border-white/20 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-[var(--accent-color)]"
                 onChange={(e) =>
                   setWizard((prev) =>
-                    prev ? { ...prev, items: e.target.value } : null
+                    prev ? { ...prev, items: e.target.value } : null,
                   )
                 }
                 value={wizard?.items || ""}
@@ -311,7 +311,7 @@ const WizardPage = () => {
                 className="bg-black/30 border border-white/20 rounded px-3 py-2 text-white placeholder-slate-400 focus:outline-none focus:border-[var(--accent-color)]"
                 onChange={(e) =>
                   setWizard((prev) =>
-                    prev ? { ...prev, notes: e.target.value } : null
+                    prev ? { ...prev, notes: e.target.value } : null,
                   )
                 }
                 value={wizard?.notes || ""}
